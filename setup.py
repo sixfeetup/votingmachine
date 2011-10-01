@@ -12,6 +12,7 @@ requires = [
     'pyramid_tm',
     'pyramid_debugtoolbar',
     'ZODB3',
+    'repoze.folder',
     ]
 
 setup(name='fedexvoting',
