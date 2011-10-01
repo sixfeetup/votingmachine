@@ -13,6 +13,7 @@ requires = [
     'pyramid_debugtoolbar',
     'ZODB3',
     'repoze.folder',
+    'deform',
     ]
 
 setup(name='fedexvoting',
