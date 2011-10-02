@@ -17,7 +17,19 @@
         </tal:block>
     </head>
     <body>
-        <tal:block metal:define-slot="content">
-        </tal:block>
+        <div id="wrap">
+            <div id="top">
+                <p><a href="${request.application_url}"><img src="${request.static_url('fedexvoting:static/pyramid.png')}" /></a></p>
+                <p>The FedEx Day Voting Machine</p>
+            </div>
+            <div id="bottom">
+                <tal:block metal:define-slot="content">
+                    Templates fill in the content here
+                </tal:block>
+            </div>
+        </div>
+        <div id="footer">
+            <p>Created by Six Feet Up, Inc. Get the source on <a href="http://github.com/sixfeetup/fedexvoting">github</a>.</p>
+        </div>
     </body>
 </html>
