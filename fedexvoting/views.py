@@ -53,8 +53,13 @@ def _get_booths(context, request, max_items=10):
 
 @view_config(context=PollingPlace,
     renderer='fedexvoting:templates/polling_place.pt')
-def polling_view(request):
-    return {}
+def polling_view(context, request):
+    current_votes = _get_booths(context['votes'], request, 1)
+    if current_votes:
+        current_vote = current_votes[0]
+    else:
+        current_vote = None
+    return {'current_vote': current_vote}
 
 
 @view_config(context=VotingBoothFolder,
