@@ -1,7 +1,7 @@
 from colander import MappingSchema
 from colander import SchemaNode
 from colander import String
-from colander import Date
+from colander import DateTime
 
 
 class VotingBoothSchema(MappingSchema):
@@ -9,5 +9,5 @@ class VotingBoothSchema(MappingSchema):
         String(),
         description="The title will be displayed on the front page"
         )
-    start = SchemaNode(Date())
-    end = SchemaNode(Date())
+    start = SchemaNode(DateTime())
+    end = SchemaNode(DateTime())
