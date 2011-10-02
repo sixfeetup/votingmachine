@@ -5,6 +5,7 @@
     <tal:block metal:fill-slot="content">
         <h1>List of previous fedex days</h1>
         <p>There will be team info here</p>
+        <p><a href="${request.resource_url(context.__parent__)}">^ up a level</a></p>
     </tal:block>
 </html>
 
