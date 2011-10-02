@@ -1,3 +1,4 @@
+from datetime import datetime
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.traversal import find_interface
@@ -91,10 +92,13 @@ def add_voting_booth(context, request):
         vote_categories = params.getall(u'vote_category')
         weights = params.getall(u'weight')
         categories = dict(zip(vote_categories, weights))
+        date_fmt = u'%Y-%m-%d %H:%M:%S'
+        start = datetime.strptime(params['start'], date_fmt)
+        end = datetime.strptime(params['end'], date_fmt)
         voting_booth = VotingBooth(
             title=params['title'],
-            start=params['start'],
-            end=params['end'],
+            start=start,
+            end=end,
             categories=categories,
             )
         voting_booth.__parent__ = context
