@@ -17,12 +17,10 @@ def _form_resources(form):
     css_resources = resources['css']
     js_links = ['/deform_static/%s' % r for r in js_resources]
     css_links = ['/deform_static/%s' % r for r in css_resources]
-    js_tags = [
-        '<script type="text/javascript" src="%s"></script>' % link
-        for link in js_links]
-    css_tags = [
-        '<link rel="stylesheet" media="screen" type="text/css" href="%s"/>' % link
-        for link in css_links]
+    jtag = '<script type="text/javascript" src="%s"></script>'
+    ltag = '<link rel="stylesheet" media="screen" type="text/css" href="%s"/>'
+    js_tags = [jtag % link for link in js_links]
+    css_tags = [ltag % link for link in css_links]
     return css_tags + js_tags
 
 
