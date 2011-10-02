@@ -43,6 +43,23 @@ class VotingBooth(Folder):
         self.start = start
         self.end = end
         self.categories = categories
+
+
+class ITeamFolder(Interface):
+    """Marker interface for team folder"""
+
+
+class TeamFolder(Folder):
+    implements(ITeamFolder)
+
+    current_id = -1
+
+    def add_team(self, team):
+        newid = self.current_id + 1
+        self.current_id = newid
+        team_id = str(newid)
+        self[team_id] = team
+        return team_id
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
         app_root = PollingPlace()

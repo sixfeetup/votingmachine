@@ -5,9 +5,11 @@ from pyramid.traversal import find_interface
 from deform import ValidationFailure
 from deform import Form
 from fedexvoting.models import PollingPlace
+from fedexvoting.models import ITeamFolder
 from fedexvoting.models import IVotingBoothFolder
 from fedexvoting.models import VotingBoothFolder
 from fedexvoting.models import VotingBooth
+from fedexvoting.models import TeamFolder
 from fedexvoting.schema import VotingBoothSchema
 
 
@@ -119,6 +121,11 @@ def add_voting_booth(context, request):
             categories=categories,
             )
         voting_booth.__parent__ = context
+        # maybe this should be done in the team add view?
+        team_folder = TeamFolder()
+        team_folder.__parent__ = voting_booth
+        team_folder.__name__ = 'teams'
+        voting_booth['teams'] = team_folder
         context.add_booth(voting_booth)
         return HTTPFound(location=request.resource_url(voting_booth))
     return {'form': form.render(), 'resource_tags': resource_tags}
@@ -151,3 +158,8 @@ def edit_voting_booth(context, request):
         categories=context.categories,
     )
     return {'form': form.render(appstruct), 'resource_tags': resource_tags}
+
+
+@view_config(context=TeamFolder)
+def teams_view(context, request):
+    return HTTPFound(location=request.resource_url(context.__parent__))
