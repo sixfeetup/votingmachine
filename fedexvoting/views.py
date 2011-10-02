@@ -71,6 +71,23 @@ def voting_booth_view(request):
     return {}
 
 
+def _process_categories(params):
+    vote_categories = params.getall(u'vote_category')
+    weights = params.getall(u'weight')
+    # create a list of dicts which is what deform will expect
+    categories = [
+        dict(vote_category=i[0], weight=i[1])
+        for i in zip(vote_categories, weights)]
+    return categories
+
+
+def _process_dates(params):
+    date_fmt = u'%Y-%m-%d %H:%M:%S'
+    start = datetime.strptime(params['start'], date_fmt)
+    end = datetime.strptime(params['end'], date_fmt)
+    return start, end
+
+
 @view_config(name='add', context=VotingBoothFolder,
     renderer='fedexvoting:templates/voting_booth_edit.pt')
 def add_voting_booth(context, request):
@@ -84,12 +101,8 @@ def add_voting_booth(context, request):
         except (ValidationFailure,), e:
             return {'form': e.render(), 'resource_tags': resource_tags}
         params = request.params
-        vote_categories = params.getall(u'vote_category')
-        weights = params.getall(u'weight')
-        categories = dict(zip(vote_categories, weights))
-        date_fmt = u'%Y-%m-%d %H:%M:%S'
-        start = datetime.strptime(params['start'], date_fmt)
-        end = datetime.strptime(params['end'], date_fmt)
+        categories = _process_categories(params)
+        start, end = _process_dates(params)
         voting_booth = VotingBooth(
             title=params['title'],
             start=start,
