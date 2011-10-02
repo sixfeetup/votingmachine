@@ -23,3 +23,9 @@ class VotingBoothSchema(MappingSchema):
     start = SchemaNode(DateTime())
     end = SchemaNode(DateTime())
     categories = CategoriesSchema()
+
+
+class TeamSchema(MappingSchema):
+    title = SchemaNode(String())
+    # TODO: Turn this into rich text?
+    description = SchemaNode(String(), missing='')

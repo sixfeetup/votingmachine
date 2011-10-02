@@ -9,8 +9,10 @@ from fedexvoting.models import ITeamFolder
 from fedexvoting.models import IVotingBoothFolder
 from fedexvoting.models import VotingBoothFolder
 from fedexvoting.models import VotingBooth
+from fedexvoting.models import Team
 from fedexvoting.models import TeamFolder
 from fedexvoting.schema import VotingBoothSchema
+from fedexvoting.schema import TeamSchema
 
 
 def _form_resources(form):
@@ -78,8 +80,13 @@ def voting_booth_folder(context, request):
 
 @view_config(context=VotingBooth,
     renderer='fedexvoting:templates/voting_booth.pt')
-def voting_booth_view(request):
-    return {}
+def voting_booth_view(context, request):
+    teams = _folder_contents(
+        context['teams'],
+        request,
+        ITeamFolder,
+    )
+    return {'teams': teams}
 
 
 def _process_categories(params):
@@ -163,3 +170,52 @@ def edit_voting_booth(context, request):
 @view_config(context=TeamFolder)
 def teams_view(context, request):
     return HTTPFound(location=request.resource_url(context.__parent__))
+
+
+@view_config(context=Team)
+def team_view(context, request):
+    return HTTPFound(location=request.resource_url(context.__parent__))
+
+
+@view_config(name='add', context=TeamFolder,
+    renderer='fedexvoting:templates/team_edit.pt')
+def add_team(context, request):
+    schema = TeamSchema()
+    form = Form(schema, buttons=('submit',))
+    resource_tags = _form_resources(form)
+    if 'submit' in request.POST:
+        controls = request.POST.items()
+        try:
+            form.validate(controls)
+        except (ValidationFailure,), e:
+            return {'form': e.render(), 'resource_tags': resource_tags}
+        params = request.params
+        team = Team(
+            title=params['title'],
+            description=params['description'],
+            )
+        team.__parent__ = context
+        context.add_team(team)
+        return HTTPFound(location=request.resource_url(context.__parent__))
+    return {'form': form.render(), 'resource_tags': resource_tags}
+
+
+@view_config(name='edit', context=Team,
+    renderer='fedexvoting:templates/team_edit.pt')
+def edit_team(context, request):
+    schema = TeamSchema()
+    form = Form(schema, buttons=('submit',))
+    resource_tags = _form_resources(form)
+    if 'submit' in request.POST:
+        controls = request.POST.items()
+        try:
+            form.validate(controls)
+        except (ValidationFailure,), e:
+            return {'form': e.render(), 'resource_tags': resource_tags}
+        params = request.params
+        context.title = params['title']
+        context.description = params['description']
+        # TODO: use find by interface here
+        voting_booth = context.__parent__.__parent__
+        return HTTPFound(location=request.resource_url(voting_booth))
+    return {'form': form.render(), 'resource_tags': resource_tags}

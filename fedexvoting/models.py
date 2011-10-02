@@ -60,6 +60,14 @@ class TeamFolder(Folder):
         team_id = str(newid)
         self[team_id] = team
         return team_id
+
+
+class Team(Persistent):
+
+    def __init__(self, title, description=None):
+        """A FedEx day team"""
+        self.title = title
+        self.description = description
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
         app_root = PollingPlace()
