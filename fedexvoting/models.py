@@ -26,12 +26,19 @@ class VotingBoothFolder(Folder):
         return booth_id
 
 
-class VotingBooth(Persistent):
+class IVotingBooth(Interface):
+    """Marker interface for voting booth"""
+
+
+class VotingBooth(Folder):
+    implements(IVotingBooth)
 
     winner = None
 
     def __init__(self, title, start, end, categories):
         """The container for a FedEx day vote"""
+        # initialize the folder settings
+        super(VotingBooth, self).__init__(data=None)
         self.title = title
         self.start = start
         self.end = end
