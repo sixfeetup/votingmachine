@@ -8,7 +8,7 @@
         <p>Here is a list of FedEx days newest to oldest</p>
         <ul>
             <li tal:repeat="booth booths">
-                <a href="${booth.url}">${booth.title}</a>
+                <a href="${booth.url}">${booth['item'].title}</a>
             </li>
         </ul>
     </tal:block>

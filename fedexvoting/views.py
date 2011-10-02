@@ -24,33 +24,37 @@ def _form_resources(form):
     return css_tags + js_tags
 
 
-def _get_booths(context, request, max_items=10):
-    booth_folder = find_interface(context, IVotingBoothFolder)
-    booths = []
-    keys = list(booth_folder.keys())
-    def by_start(x, y):
-        return cmp(booth_folder[x].start, booth_folder[y].start)
-    keys.sort(by_start)
+def _folder_contents(context, request, interface, sort='title', max_items=10):
+    folder = find_interface(context, interface)
+    items = []
+    keys = list(folder.keys())
+    def sort_by(x, y):
+        return cmp(getattr(folder[x], sort), getattr(folder[y], sort))
+    keys.sort(sort_by)
     keys.reverse()
     keys = keys[:max_items]
     for name in keys:
-        entry = booth_folder[name]
-        booth_url = request.resource_url(entry)
+        item = folder[name]
+        item_url = request.resource_url(item)
         new = dict(
             name=name,
-            title=entry.title,
-            start=entry.start,
-            end=entry.end,
-            url=booth_url,
+            item=item,
+            url=item_url,
         )
-        booths.append(new)
-    return booths
+        items.append(new)
+    return items
 
 
 @view_config(context=PollingPlace,
     renderer='fedexvoting:templates/polling_place.pt')
 def polling_view(context, request):
-    current_votes = _get_booths(context['votes'], request, 1)
+    current_votes = _folder_contents(
+        context['votes'],
+        request,
+        IVotingBoothFolder,
+        sort='start',
+        max_items=1,
+    )
     if current_votes:
         current_vote = current_votes[0]
     else:
@@ -61,7 +65,12 @@ def polling_view(context, request):
 @view_config(context=VotingBoothFolder,
     renderer='fedexvoting:templates/voting_booth_folder.pt')
 def voting_booth_folder(context, request):
-    booths = _get_booths(context, request)
+    booths = _folder_contents(
+        context,
+        request,
+        IVotingBoothFolder,
+        sort='start',
+    )
     return {'booths': booths}
 
 
