@@ -138,7 +138,14 @@ def add_voting_booth(context, request):
         voting_booth['teams'] = team_folder
         context.add_booth(voting_booth)
         return HTTPFound(location=request.resource_url(voting_booth))
-    return {'form': form.render(), 'resource_tags': resource_tags}
+    # set up default categories to use
+    categories = [
+        dict(vote_category='Completeness', weight='1.0'),
+        dict(vote_category='Usefulness', weight='0.7'),
+        dict(vote_category='Awesomeness', weight='0.5'),
+    ]
+    appstruct = dict(categories=categories)
+    return {'form': form.render(appstruct), 'resource_tags': resource_tags}
 
 
 @view_config(name='edit', context=VotingBooth,
