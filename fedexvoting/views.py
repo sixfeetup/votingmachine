@@ -53,10 +53,15 @@ def add_voting_booth(context, request):
             form.validate(controls)
         except (ValidationFailure,), e:
             return {'form': e.render(), 'resource_tags': resource_tags}
+        params = request.params
+        vote_categories = params.getall(u'vote_category')
+        weights = params.getall(u'weight')
+        categories = dict(zip(vote_categories, weights))
         voting_booth = VotingBooth(
-            title=request.POST['title'],
-            start=request.POST['start'],
-            end=request.POST['end'],
+            title=params['title'],
+            start=params['start'],
+            end=params['end'],
+            categories=categories,
             )
         voting_booth.__parent__ = context
         context.add_booth(voting_booth)

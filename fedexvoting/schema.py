@@ -1,7 +1,18 @@
 from colander import MappingSchema
+from colander import SequenceSchema
 from colander import SchemaNode
 from colander import String
 from colander import DateTime
+from colander import Float
+
+
+class CategorySchema(MappingSchema):
+    vote_category = SchemaNode(String())
+    weight = SchemaNode(Float())
+
+
+class CategoriesSchema(SequenceSchema):
+    category = CategorySchema()
 
 
 class VotingBoothSchema(MappingSchema):
@@ -11,3 +22,4 @@ class VotingBoothSchema(MappingSchema):
         )
     start = SchemaNode(DateTime())
     end = SchemaNode(DateTime())
+    categories = CategoriesSchema()
