@@ -10,6 +10,9 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     config = Configurator(root_factory=root_factory, settings=settings)
+    config.add_subscriber(
+        'fedexvoting.subscribers.add_base_template',
+        'pyramid.events.BeforeRender')
     config.add_static_view('static', 'fedexvoting:static', cache_max_age=3600)
     config.add_static_view(
         'deform_static', 'deform:static', cache_max_age=3600)
