@@ -4,13 +4,16 @@ from pyramid.view import view_config
 from pyramid.traversal import find_interface
 from deform import ValidationFailure
 from deform import Form
-from fedexvoting.models import PollingPlace
+
 from fedexvoting.models import ITeamFolder
 from fedexvoting.models import IVotingBoothFolder
+
+from fedexvoting.models import PollingPlace
 from fedexvoting.models import VotingBoothFolder
 from fedexvoting.models import VotingBooth
 from fedexvoting.models import Team
 from fedexvoting.models import TeamFolder
+
 from fedexvoting.schema import VotingBoothSchema
 from fedexvoting.schema import TeamSchema
 
