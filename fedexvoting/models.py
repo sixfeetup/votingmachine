@@ -21,7 +21,8 @@ class VotingBoothFolder(Folder):
 
 class VotingBooth(Persistent):
 
-    def __init__(self, title, start, end):
+    winner = None
+
     def __init__(self, title, start, end, categories):
         """The container for a FedEx day vote"""
         self.title = title
