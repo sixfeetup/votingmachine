@@ -1,8 +1,10 @@
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
+from pyramid.traversal import find_interface
 from deform import ValidationFailure
 from deform import Form
 from fedexvoting.models import PollingPlace
+from fedexvoting.models import IVotingBoothFolder
 from fedexvoting.models import VotingBoothFolder
 from fedexvoting.models import VotingBooth
 from fedexvoting.schema import VotingBoothSchema
@@ -23,6 +25,32 @@ def _form_resources(form):
     return css_tags + js_tags
 
 
+def _get_booths(context, request, max_items=10):
+    booth_folder = find_interface(context, IVotingBoothFolder)
+    booths = []
+    keys = list(booth_folder.keys())
+    def byint(a, b):
+        try:
+            return cmp(int(a), int(b))
+        except TypeError:
+            return cmp(a, b)
+    keys.sort(byint)
+    keys.reverse()
+    keys = keys[:max_items]
+    for name in keys:
+        entry = booth_folder[name]
+        booth_url = request.resource_url(entry)
+        new = dict(
+            name=name,
+            title=entry.title,
+            start=entry.start,
+            end=entry.end,
+            url=booth_url,
+        )
+        booths.append(new)
+    return booths
+
+
 @view_config(context=PollingPlace,
     renderer='fedexvoting:templates/polling_place.pt')
 def polling_view(request):
@@ -31,8 +59,9 @@ def polling_view(request):
 
 @view_config(context=VotingBoothFolder,
     renderer='fedexvoting:templates/voting_booth_folder.pt')
-def voting_booth_folder(request):
-    return {}
+def voting_booth_folder(context, request):
+    booths = _get_booths(context, request)
+    return {'booths': booths}
 
 
 @view_config(context=VotingBooth,

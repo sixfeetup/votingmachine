@@ -6,6 +6,12 @@
         <h1>List of previous fedex days</h1>
         <p>There will be team info here</p>
         <p><a href="${request.resource_url(context.__parent__)}">^ up a level</a></p>
+        <p>Here is a list of FedEx days newest to oldest</p>
+        <ul>
+            <li tal:repeat="booth booths">
+                <a href="${booth.url}">${booth.title}</a>
+            </li>
+        </ul>
     </tal:block>
 </html>
 

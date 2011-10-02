@@ -1,5 +1,7 @@
 from persistent import Persistent
 from persistent.mapping import PersistentMapping
+from zope.interface import Interface
+from zope.interface import implements
 from repoze.folder import Folder
 
 
@@ -7,7 +9,12 @@ class PollingPlace(PersistentMapping):
     __parent__ = __name__ = None
 
 
+class IVotingBoothFolder(Interface):
+    """Marker interface for voting booth folder"""
+
+
 class VotingBoothFolder(Folder):
+    implements(IVotingBoothFolder)
 
     current_id = -1
 
