@@ -28,12 +28,9 @@ def _get_booths(context, request, max_items=10):
     booth_folder = find_interface(context, IVotingBoothFolder)
     booths = []
     keys = list(booth_folder.keys())
-    def byint(a, b):
-        try:
-            return cmp(int(a), int(b))
-        except TypeError:
-            return cmp(a, b)
-    keys.sort(byint)
+    def by_start(x, y):
+        return cmp(booth_folder[x].start, booth_folder[y].start)
+    keys.sort(by_start)
     keys.reverse()
     keys = keys[:max_items]
     for name in keys:
