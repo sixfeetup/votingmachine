@@ -113,3 +113,32 @@ def add_voting_booth(context, request):
         context.add_booth(voting_booth)
         return HTTPFound(location=request.resource_url(voting_booth))
     return {'form': form.render(), 'resource_tags': resource_tags}
+
+
+@view_config(name='edit', context=VotingBooth,
+    renderer='fedexvoting:templates/voting_booth_edit.pt')
+def edit_voting_booth(context, request):
+    schema = VotingBoothSchema()
+    form = Form(schema, buttons=('submit',))
+    resource_tags = _form_resources(form)
+    if 'submit' in request.POST:
+        controls = request.POST.items()
+        try:
+            form.validate(controls)
+        except (ValidationFailure,), e:
+            return {'form': e.render(), 'resource_tags': resource_tags}
+        params = request.params
+        categories = _process_categories(params)
+        start, end = _process_dates(params)
+        context.title = params['title']
+        context.start = start
+        context.end = end
+        context.categories = categories
+        return HTTPFound(location=request.resource_url(context))
+    appstruct = dict(
+        title=context.title,
+        start=context.start,
+        end=context.end,
+        categories=context.categories,
+    )
+    return {'form': form.render(appstruct), 'resource_tags': resource_tags}
