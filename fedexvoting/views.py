@@ -52,6 +52,23 @@ def _folder_contents(context, request, interface, sort='title', max_items=10):
     return items
 
 
+def _process_categories(params):
+    vote_categories = params.getall(u'vote_category')
+    weights = params.getall(u'weight')
+    # create a list of dicts which is what deform will expect
+    categories = [
+        dict(vote_category=i[0], weight=i[1])
+        for i in zip(vote_categories, weights)]
+    return categories
+
+
+def _process_dates(params):
+    date_fmt = u'%Y-%m-%d %H:%M:%S'
+    start = datetime.strptime(params['start'], date_fmt)
+    end = datetime.strptime(params['end'], date_fmt)
+    return start, end
+
+
 @view_config(context=PollingPlace,
     renderer='fedexvoting:templates/polling_place.pt')
 def polling_view(context, request):
@@ -90,23 +107,6 @@ def voting_booth_view(context, request):
         ITeamFolder,
     )
     return {'teams': teams}
-
-
-def _process_categories(params):
-    vote_categories = params.getall(u'vote_category')
-    weights = params.getall(u'weight')
-    # create a list of dicts which is what deform will expect
-    categories = [
-        dict(vote_category=i[0], weight=i[1])
-        for i in zip(vote_categories, weights)]
-    return categories
-
-
-def _process_dates(params):
-    date_fmt = u'%Y-%m-%d %H:%M:%S'
-    start = datetime.strptime(params['start'], date_fmt)
-    end = datetime.strptime(params['end'], date_fmt)
-    return start, end
 
 
 @view_config(name='add', context=VotingBoothFolder,
