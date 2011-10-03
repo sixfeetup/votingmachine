@@ -62,20 +62,10 @@ def _folder_contents(context, request, interface, sort='title', max_items=10):
     return items
 
 
-def _process_categories(params):
-    vote_categories = params.getall(u'vote_category')
-    weights = params.getall(u'weight')
-    # create a list of dicts which is what deform will expect
-    categories = [
-        dict(vote_category=i[0], weight=i[1])
-        for i in zip(vote_categories, weights)]
-    return categories
-
-
-def _process_dates(params):
+def _process_dates(values):
     date_fmt = u'%Y-%m-%d %H:%M:%S'
-    start = datetime.strptime(params['start'], date_fmt)
-    end = datetime.strptime(params['end'], date_fmt)
+    start = datetime.strptime(values['start'], date_fmt)
+    end = datetime.strptime(values['end'], date_fmt)
     return start, end
 
 
@@ -158,14 +148,13 @@ def add_voting_booth(context, request):
             form.validate(controls)
         except (ValidationFailure,), e:
             return {'form': e.render(), 'resource_tags': resource_tags}
-        params = request.params
-        categories = _process_categories(params)
-        start, end = _process_dates(params)
+        values = parse(request.params.items())
+        start, end = _process_dates(values)
         voting_booth = VotingBooth(
-            title=params['title'],
+            title=values['title'],
             start=start,
             end=end,
-            categories=categories,
+            categories=values['categories'],
             )
         voting_booth.__parent__ = context
         # maybe this should be done in the team add view?
@@ -197,13 +186,12 @@ def edit_voting_booth(context, request):
             form.validate(controls)
         except (ValidationFailure,), e:
             return {'form': e.render(), 'resource_tags': resource_tags}
-        params = request.params
-        categories = _process_categories(params)
-        start, end = _process_dates(params)
-        context.title = params['title']
+        values = parse(request.params.items())
+        start, end = _process_dates(values)
+        context.title = values['title']
         context.start = start
         context.end = end
-        context.categories = categories
+        context.categories = values['categories']
         return HTTPFound(location=request.resource_url(context))
     appstruct = dict(
         title=context.title,
