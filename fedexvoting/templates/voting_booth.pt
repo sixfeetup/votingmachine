@@ -15,6 +15,7 @@
 
 
         <ul>
+            <li tal:condition="teams"><a href="${request.resource_url(context)}/vote">Vote</a></li>
             <li><a href="${request.resource_url(context)}/teams/add">Add new team</a></li>
         </ul>
 
