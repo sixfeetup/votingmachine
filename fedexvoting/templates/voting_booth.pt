@@ -13,6 +13,11 @@
             <a href="${request.resource_url(context.__parent__)}">^ up a level</a>
         </p>
 
+
+        <ul>
+            <li><a href="${request.resource_url(context)}/teams/add">Add new team</a></li>
+        </ul>
+
         <tal:teams condition="teams">
         <h2>Team List</h2>
         <ul>

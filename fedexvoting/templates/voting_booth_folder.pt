@@ -4,7 +4,7 @@
       metal:use-macro="base">
     <tal:block metal:fill-slot="content">
         <h1>List of previous fedex days</h1>
-        <p><a href="${request.resource_url(context.__parent__)}">^ up a level</a></p>
+        <p><a href="${request.resource_url(context.__parent__)}">^ up a level</a> | <a href="${request.resource_url(context)}/add">Add new FedEx Day</a></p>
         <p>Here is a list of FedEx days newest to oldest</p>
         <ul>
             <li tal:repeat="booth booths">
