@@ -68,6 +68,8 @@ class Team(Persistent):
         """A FedEx day team"""
         self.title = title
         self.description = description
+
+
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
         app_root = PollingPlace()
