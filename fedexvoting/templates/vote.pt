@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base">
+
+    <tal:block metal:fill-slot="resources">
+      <tal:resources repeat="tag resource_tags">
+        <tal:tag replace="structure tag" />
+      </tal:resources>
+    </tal:block>
+
+
+    <tal:block metal:fill-slot="content">
+
+        <h1>Place your vote</h1>
+        <p>Rank each team by category. 1 = low, 2 = medium, 3 = high</p>
+
+        <p tal:replace="structure form">The form will render here</p>
+
+        <!-- These are only here because the boilerplate design -->
+        <br />
+        <br />
+
+        <script type="text/javascript">
+           deform.load()
+        </script>
+
+    </tal:block>
+</html>

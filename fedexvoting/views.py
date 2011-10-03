@@ -2,8 +2,11 @@ from datetime import datetime
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.traversal import find_interface
+import colander
+from peppercorn import parse
 from deform import ValidationFailure
 from deform import Form
+from deform import widget
 
 from fedexvoting.models import ITeamFolder
 from fedexvoting.models import IVotingBoothFolder
@@ -16,6 +19,13 @@ from fedexvoting.models import TeamFolder
 
 from fedexvoting.schema import VotingBoothSchema
 from fedexvoting.schema import TeamSchema
+from fedexvoting.schema import BallotSchema
+
+CATEGORY_RANK = (
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
+)
 
 
 def _form_resources(form):
@@ -67,6 +77,33 @@ def _process_dates(params):
     start = datetime.strptime(params['start'], date_fmt)
     end = datetime.strptime(params['end'], date_fmt)
     return start, end
+
+
+def _add_category_schema(context, request, schema):
+    team_vote = schema['votes']['vote']
+    if 'rankings' in team_vote:
+        return
+    categories = context.categories
+    if not categories:
+        return
+    cat_vote_schema = colander.SchemaNode(colander.Mapping())
+    for cat in categories:
+        cat_name = cat['vote_category']
+        cat_vote_schema.add(
+            colander.SchemaNode(
+                colander.Int(),
+                name=cat_name,
+                widget=widget.RadioChoiceWidget(values=CATEGORY_RANK),
+                validator=colander.OneOf(dict(CATEGORY_RANK).keys()),
+            )
+        )
+    team_vote.add(
+        colander.SchemaNode(
+            colander.Mapping(),
+            cat_vote_schema,
+            name='rankings'
+        )
+    )
 
 
 @view_config(context=PollingPlace,
@@ -229,3 +266,34 @@ def edit_team(context, request):
         voting_booth = context.__parent__.__parent__
         return HTTPFound(location=request.resource_url(voting_booth))
     return {'form': form.render(), 'resource_tags': resource_tags}
+
+
+@view_config(name='vote', context=VotingBooth,
+    renderer='fedexvoting:templates/vote.pt')
+def vote_view(context, request):
+    schema = BallotSchema()
+    _add_category_schema(context, request, schema)
+    form = Form(schema, buttons=('submit',))
+    resource_tags = _form_resources(form)
+    if 'submit' in request.POST:
+        controls = request.POST.items()
+        try:
+            form.validate(controls)
+        except (ValidationFailure,), e:
+            return {'form': e.render(), 'resource_tags': resource_tags}
+        results = parse(request.params.items())['votes']
+        context.results.append(results)
+        context._p_changed = True
+        return HTTPFound(location=request.resource_url(context))
+    # set up the list of teams
+    teams = _folder_contents(
+        context['teams'],
+        request,
+        ITeamFolder,
+    )
+    team_dicts = [
+        dict(team_hidden=team['item'].__name__, team=team['item'].title)
+        for team in teams
+    ]
+    appstruct = {'votes': team_dicts}
+    return {'form': form.render(appstruct), 'resource_tags': resource_tags}

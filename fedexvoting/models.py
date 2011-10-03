@@ -43,6 +43,7 @@ class VotingBooth(Folder):
         self.start = start
         self.end = end
         self.categories = categories
+        self.results = []
 
 
 class ITeamFolder(Interface):

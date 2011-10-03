@@ -4,6 +4,8 @@ from colander import SchemaNode
 from colander import String
 from colander import DateTime
 from colander import Float
+from colander import Int
+from deform import widget
 
 
 class CategorySchema(MappingSchema):
@@ -29,3 +31,27 @@ class TeamSchema(MappingSchema):
     title = SchemaNode(String())
     # TODO: Turn this into rich text?
     description = SchemaNode(String(), missing='')
+
+
+class TeamVoteSchema(MappingSchema):
+    # hidden value that has the team id in it
+    team_hidden = SchemaNode(
+        Int(),
+        widget=widget.HiddenWidget(),
+    )
+    # read-only friendly presentation of the team name
+    team = SchemaNode(
+        String(),
+        missing='',
+        widget=widget.TextInputWidget(
+            template="readonly/textinput",
+        ),
+    )
+
+
+class VoteSchema(SequenceSchema):
+    vote = TeamVoteSchema()
+
+
+class BallotSchema(MappingSchema):
+    votes = VoteSchema()
