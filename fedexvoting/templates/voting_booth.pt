@@ -6,13 +6,12 @@
         <h1>${context.title}</h1>
 
         <p>
-            On ${context.start.strftime('%B %e %Y')}, The following ${len(teams)} teams worked to deliver overnight.
-        </p>
-
-        <p>
             <a href="${request.resource_url(context.__parent__)}">^ up a level</a>
         </p>
 
+        <p>
+            On ${context.start.strftime('%B %e %Y')}, The following ${len(teams)} teams worked to deliver overnight.
+        </p>
 
         <ul>
             <li tal:condition="teams"><a href="${request.resource_url(context)}/vote">Vote</a></li>
