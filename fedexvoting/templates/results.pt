@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base">
+    <tal:block metal:fill-slot="content">
+        <h1>Results</h1>
+
+        <p>
+            <a href="${request.resource_url(context)}">^ up a level</a>
+        </p>
+        
+        <p>Results for ${context.title}</p>
+
+        <tal:results condition="scores">
+            <table>
+                <tr>
+                    <th>Team</th>
+                    <th>Score</th>
+                </tr>
+                <tr tal:repeat="score scores">
+                    <td>${score[0].title}</td>
+                    <td>${score[1]}</td>
+                </tr>
+            </table>
+        </tal:results>
+
+    </tal:block>
+</html>
+

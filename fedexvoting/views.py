@@ -285,3 +285,26 @@ def vote_view(context, request):
     ]
     appstruct = {'votes': team_dicts}
     return {'form': form.render(appstruct), 'resource_tags': resource_tags}
+
+
+@view_config(name='results', context=VotingBooth,
+    renderer='fedexvoting:templates/results.pt')
+def results_view(context, request):
+    """This is pretty ugly, needs a re-factoring
+    """
+    scores = {}
+    # build up the list of weights
+    weights = {}
+    for category in context.categories:
+        weights[category['vote_category']] = float(category['weight'])
+    for vote in context.results:
+        for team in vote:
+            team_id = int(team['team_hidden'])
+            team_obj = context['teams'][team_id]
+            # WTF is up with the empty key for the rankings?
+            vote_levels = team['rankings']['']
+            for ranking in vote_levels:
+                total = scores.setdefault(team_obj, 0)
+                new_score = int(vote_levels[ranking]) * weights[ranking]
+                scores[team_obj] = total + new_score
+    return {'scores': sorted(scores.items(), cmp=lambda x, y: cmp(y[1], x[1]))}
