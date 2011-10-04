@@ -268,6 +268,12 @@ def vote_view(context, request):
         try:
             form.validate(controls)
         except (ValidationFailure,), e:
+            # Put the team names back in place
+            cstruct = e.cstruct
+            for vote in cstruct['votes']:
+                team_id = vote['team_hidden']
+                team_title = context['teams'][team_id].title
+                vote['team'] = team_title
             return {'form': e.render(), 'resource_tags': resource_tags}
         results = parse(request.params.items())['votes']
         context.results.append(results)
