@@ -6,7 +6,7 @@
         <h1>${context.title}</h1>
 
         <p>
-            From ${context.start} to ${context.end}, ${len(teams)} teams tried to deliver over night.
+            On ${context.start.strftime('%B %e %Y')}, The following ${len(teams)} teams worked to deliver overnight.
         </p>
 
         <p>
