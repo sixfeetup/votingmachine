@@ -1,0 +1,37 @@
+.deformMappingFieldset legend,
+.deformClosebutton,
+a.deformSeqAdd {
+    display: none !important;
+}
+.deform label.desc {
+    float: left;
+}
+.deform li {
+    margin: 0 !important;
+    padding: 7px !important;
+}
+.deformSeq > ul {
+    clear: both;
+}
+.deformSeq > ul > li { 
+    width: 425px;
+    margin-right: 25px;
+    float: left;
+    clear: none;
+}
+.deformMappingFieldset > ul {
+    background-color: #eeeeee;
+}
+.deformMappingFieldset p {
+    font-size: 18px;
+    color: #f07817;
+    font-weight: bold;
+    padding: 10px 0 0 5px;
+}
+.deform ul.deformSet {
+    margin-left: 200px;
+}
+.deform ul.deformSet li {
+    display: inline;
+    margin: 0;
+}
