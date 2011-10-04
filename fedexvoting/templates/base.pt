@@ -8,19 +8,18 @@
         <link rel="shortcut icon" href="${request.static_url('fedexvoting:static/favicon.ico')}" />
         <!-- original boiler plate -->
         <link rel="stylesheet" href="${request.static_url('fedexvoting:static/pylons.css')}" type="text/css" media="screen" charset="utf-8" />
+        <link rel="stylesheet" href="${request.static_url('fedexvoting:static/fedex.css')}" type="text/css" media="screen" charset="utf-8" />
         <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" media="screen" />
         <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" media="screen" />
-        <!--[if lte IE 6]>
-        <link rel="stylesheet" href="${request.static_url('fedexvoting:static/ie6.css')}" type="text/css" media="screen" charset="utf-8" />
-        <![endif]-->
+        <script type="text/javascript" src="${request.static_url('fedexvoting:static/jquery.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('fedexvoting:static/forms.js')}"></script>
         <tal:block metal:define-slot="resources">
         </tal:block>
     </head>
     <body>
         <div id="wrap">
             <div id="top">
-                <p><a href="${request.application_url}"><img src="${request.static_url('fedexvoting:static/pyramid.png')}" /></a></p>
-                <p>The FedEx Day Voting Machine</p>
+                <p><a href="${request.application_url}"><img src="${request.static_url('fedexvoting:static/logo.png')}" /></a></p>
             </div>
             <div id="bottom">
                 <tal:block metal:define-slot="content">
