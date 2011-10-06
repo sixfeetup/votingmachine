@@ -7,6 +7,9 @@
         <p tal:condition="current_vote">
             Current Vote: <a href="${current_vote.url}">${current_vote['item'].title}</a>
         </p>
+        <br/>
+        <br/>
+        <br/>
         <p><a href="${request.application_url}/votes/add">Add a new FedEx day</a></p>
     </tal:block>
 </html>
