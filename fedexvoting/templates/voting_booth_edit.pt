@@ -16,10 +16,6 @@
         <p>Add FedEx day details here</p>
         <p tal:replace="structure form">The form will render here</p>
 
-        <!-- These are only here because the boilerplate design -->
-        <br />
-        <br />
-
         <script type="text/javascript">
            deform.load()
         </script>
