@@ -18,7 +18,7 @@ requires = [
     ]
 
 setup(name='fedexvoting',
-      version='1.0.1',
+      version='1.0.2',
       description='fedexvoting',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
