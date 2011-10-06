@@ -38,7 +38,7 @@ class VotingBooth(Folder):
     def __init__(self, title, start, end, categories):
         """The container for a FedEx day vote"""
         # initialize the folder settings
-        super(VotingBooth, self).__init__(data=None)
+        super(VotingBooth, self).__init__()
         self.title = title
         self.start = start
         self.end = end
