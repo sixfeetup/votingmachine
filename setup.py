@@ -14,6 +14,7 @@ requires = [
     'ZODB3',
     'repoze.folder',
     'deform',
+    'nose',
     ]
 
 setup(name='fedexvoting',
