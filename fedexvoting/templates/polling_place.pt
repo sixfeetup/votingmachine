@@ -3,13 +3,16 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
     <tal:block metal:fill-slot="content">
+        <nav>
+            <ul>
+                <li><a href="${request.application_url}/votes/add">Add a new FedEx day</a></li>
+                <li><a href="${request.application_url}/votes/">View all Events</a></li>
+            </ul>
+        </nav>
         <h1>This is the voting machine!</h1>
         <p tal:condition="current_vote">
             Current Vote: <a href="${current_vote.url}">${current_vote['item'].title}</a>
         </p>
-        <br/>
-        <br/>
-        <br/>
-        <p><a href="${request.application_url}/votes/add">Add a new FedEx day</a></p>
+        
     </tal:block>
 </html>

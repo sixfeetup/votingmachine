@@ -3,23 +3,22 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
     <tal:block metal:fill-slot="content">
-        <h1>Results</h1>
-
-        <p>
+        <nav>
             <a href="${request.resource_url(context)}">^ up a level</a>
-        </p>
-        
-        <p>Results for ${context.title}</p>
+        </nav>
+
+        <h1>Results for ${context.title}</h1>
 
         <tal:results condition="scores">
-            <table>
+            <table id="results">
                 <tr>
                     <th>Team</th>
-                    <th>Score</th>
+                    <th class="score">Score</th>
                 </tr>
-                <tr tal:repeat="score scores">
+                <tr tal:repeat="score scores"
+                    tal:attributes="class string:row-${repeat.score.number}">
                     <td>${score[0].title}</td>
-                    <td>${score[1]}</td>
+                    <td class="score">${score[1]}</td>
                 </tr>
             </table>
         </tal:results>

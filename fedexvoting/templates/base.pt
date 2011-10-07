@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal">
@@ -6,11 +6,7 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <title>FedEx Day Voting Machine</title>
         <link rel="shortcut icon" href="${request.static_url('fedexvoting:static/favicon.ico')}" />
-        <!-- original boiler plate -->
-        <link rel="stylesheet" href="${request.static_url('fedexvoting:static/pylons.css')}" type="text/css" media="screen" charset="utf-8" />
         <link rel="stylesheet" href="${request.static_url('fedexvoting:static/fedex.css')}" type="text/css" media="screen" charset="utf-8" />
-        <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/nobile/stylesheet.css" media="screen" />
-        <link rel="stylesheet" href="http://static.pylonsproject.org/fonts/neuton/stylesheet.css" media="screen" />
         <script type="text/javascript" src="${request.static_url('fedexvoting:static/jquery.js')}"></script>
         <script type="text/javascript" src="${request.static_url('fedexvoting:static/forms.js')}"></script>
         <tal:block metal:define-slot="resources">
@@ -18,17 +14,20 @@
     </head>
     <body>
         <div id="wrap">
-            <div id="top">
-                <p><a href="${request.application_url}"><img src="${request.static_url('fedexvoting:static/logo.png')}" /></a></p>
-            </div>
+            <header>
+                <a href="${request.application_url}">
+                    <img src="${request.static_url('fedexvoting:static/logo.png')}" alt="FedEx Day Voting Machine" />
+                </a>
+            </header>
             <div id="bottom">
                 <tal:block metal:define-slot="content">
                     Templates fill in the content here
                 </tal:block>
             </div>
         </div>
-        <div id="footer">
-            <p>Created by Six Feet Up, Inc. Get the source on <a href="http://github.com/sixfeetup/fedexvoting">github</a>.</p>
-        </div>
+        <footer>
+            <p>Created by Six Feet Up, Inc. Get the source on <a href="http://github.com/sixfeetup/fedexvoting">github</a>.<br />
+                The FedEx name is a registered trademark</p>
+        <footer>
     </body>
 </html>
