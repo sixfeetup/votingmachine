@@ -22,12 +22,12 @@
         <tal:teams condition="teams">
             <dl>
                 <tal:teams repeat="team teams">
-                    <dd tal:content="team.item.title">Team Title</dd>
-                    <dt class="discreet"
+                    <dt tal:content="team.item.title">Team Title</dt>
+                    <dd class="discreet"
                         tal:define="descrip team.item.description"
                         tal:condition="descrip">
                       ${team.item.description}
-                    </dt>
+                    </dd>
                 </tal:teams>
             </dl>
         </tal:teams>
