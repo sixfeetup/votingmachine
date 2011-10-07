@@ -27,6 +27,9 @@ ul {
     list-style-type: disc;
     margin: 0 0 0 20px;
 }
+dd {
+    margin-top: 12px;
+}
 blockquote,
 q {
     quotes: none;

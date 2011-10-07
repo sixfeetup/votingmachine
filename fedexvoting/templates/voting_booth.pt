@@ -20,11 +20,16 @@
         </p>
 
         <tal:teams condition="teams">
-            <ul>
-                <li tal:repeat="team teams">
-                    ${team.item.title}
-                </li>
-            </ul>
+            <dl>
+                <tal:teams repeat="team teams">
+                    <dd tal:content="team.item.title">Team Title</dd>
+                    <dt class="discreet"
+                        tal:define="descrip team.item.description"
+                        tal:condition="descrip">
+                      ${team.item.description}
+                    </dt>
+                </tal:teams>
+            </dl>
         </tal:teams>
 
     </tal:block>
