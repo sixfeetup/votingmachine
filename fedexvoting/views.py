@@ -41,7 +41,8 @@ def _form_resources(form):
     return css_tags + js_tags
 
 
-def _folder_contents(context, request, interface, sort='title', max_items=10):
+def _folder_contents(context, request, interface, sort='title',
+                     max_items=None):
     folder = find_interface(context, interface)
     items = []
     keys = list(folder.keys())
@@ -49,7 +50,8 @@ def _folder_contents(context, request, interface, sort='title', max_items=10):
         return cmp(getattr(folder[x], sort), getattr(folder[y], sort))
     keys.sort(sort_by)
     keys.reverse()
-    keys = keys[:max_items]
+    if max_items is not None:
+        keys = keys[:max_items]
     for name in keys:
         item = folder[name]
         item_url = request.resource_url(item)
