@@ -11,6 +11,10 @@ label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
     vertical-align: baseline;
     background: transparent;
 }
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section { 
+    display: block;
+}
 
 /* general elements */
 
@@ -134,10 +138,18 @@ nav {
 }
 nav li {
     list-style: none none;
-    border: 1px solid #eeeeee;
-    padding: 5px 10px;
+    border: 1px solid #dddddd;
     margin: 5px 5px 0 0;
     text-align: center;
+}
+nav li a {
+    display: block;
+    background-color: #eeeeee;
+    padding: 5px 10px;
+}
+nav li a:hover {
+    background-color: #ffffff;
+    text-decoration: none;
 }
 
 /* main wrapper */
