@@ -1,4 +1,5 @@
 from datetime import datetime
+from types import StringTypes
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.traversal import find_interface
@@ -47,7 +48,12 @@ def _folder_contents(context, request, interface, sort='title',
     items = []
     keys = list(folder.keys())
     def sort_by(x, y):
-        return cmp(getattr(folder[x], sort), getattr(folder[y], sort))
+        attr1 = getattr(folder[x], sort)
+        attr2 = getattr(folder[y], sort)
+        if isinstance(attr1, StringTypes) and isinstance(attr2, StringTypes):
+            attr1 = attr1.lower()
+            attr2 = attr2.lower()
+        return cmp(attr1, attr2)
     keys.sort(sort_by)
     if sort_order == 'descending':
         keys.reverse()
