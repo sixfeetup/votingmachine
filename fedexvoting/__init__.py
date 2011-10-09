@@ -1,5 +1,7 @@
+from pkg_resources import resource_filename
 from pyramid.config import Configurator
 from pyramid_zodbconn import get_connection
+from deform import Form
 from fedexvoting.models import appmaker
 
 
@@ -11,6 +13,11 @@ def root_factory(request):
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
+    # add custom deform template search path
+    deform_templates = resource_filename('deform', 'templates')
+    fedexvoting_templates = resource_filename('fedexvoting', 'templates')
+    search_path = (fedexvoting_templates, deform_templates)
+    Form.set_zpt_renderer(search_path)
     config = Configurator(root_factory=root_factory, settings=settings)
     config.add_subscriber(
         'fedexvoting.subscribers.add_base_template',
