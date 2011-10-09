@@ -364,7 +364,9 @@ def results_view(context, request):
     for vote in context.results:
         for team in vote:
             team_id = int(team['team_hidden'])
-            team_obj = context['teams'][team_id]
+            team_obj = context['teams'].get(team_id, None)
+            if team_obj is None:
+                continue
             # WTF is up with the empty key for the rankings?
             vote_levels = team['rankings']['']
             for ranking in vote_levels:
