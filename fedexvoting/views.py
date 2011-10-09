@@ -42,14 +42,15 @@ def _form_resources(form):
 
 
 def _folder_contents(context, request, interface, sort='title',
-                     max_items=None):
+                     sort_order='ascending', max_items=None):
     folder = find_interface(context, interface)
     items = []
     keys = list(folder.keys())
     def sort_by(x, y):
         return cmp(getattr(folder[x], sort), getattr(folder[y], sort))
     keys.sort(sort_by)
-    keys.reverse()
+    if sort_order == 'descending':
+        keys.reverse()
     if max_items is not None:
         keys = keys[:max_items]
     for name in keys:
@@ -106,6 +107,7 @@ def polling_view(context, request):
         request,
         IVotingBoothFolder,
         sort='start',
+        sort_order='descending',
         max_items=1,
     )
     if current_votes:
@@ -123,6 +125,7 @@ def voting_booth_folder(context, request):
         request,
         IVotingBoothFolder,
         sort='start',
+        sort_order='descending',
     )
     return {'booths': booths}
 
