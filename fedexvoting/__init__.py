@@ -1,13 +1,8 @@
 from pkg_resources import resource_filename
 from pyramid.config import Configurator
-from pyramid_zodbconn import get_connection
+from repoze.zodbconn.finder import PersistentApplicationFinder
 from deform import Form
 from fedexvoting.models import appmaker
-
-
-def root_factory(request):
-    conn = get_connection(request)
-    return appmaker(conn.root())
 
 
 def main(global_config, **settings):
@@ -18,8 +13,12 @@ def main(global_config, **settings):
     fedexvoting_templates = resource_filename('fedexvoting', 'templates')
     search_path = (fedexvoting_templates, deform_templates)
     Form.set_zpt_renderer(search_path)
+    zodb_uri = settings['zodb_uri']
+    finder = PersistentApplicationFinder(zodb_uri, appmaker)
+    def get_root(request):
+        return finder(request.environ)
     # pyramid configuration
-    config = Configurator(root_factory=root_factory, settings=settings)
+    config = Configurator(root_factory=get_root, settings=settings)
     # subscriber for base template setup
     config.add_subscriber(
         'fedexvoting.subscribers.add_base_template',

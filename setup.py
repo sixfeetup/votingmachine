@@ -13,6 +13,9 @@ requires = [
     'pyramid_debugtoolbar',
     'ZODB3',
     'repoze.folder',
+    'repoze.retry',
+    'repoze.tm2',
+    'repoze.zodbconn',
     'deform',
     'nose',
     ]
