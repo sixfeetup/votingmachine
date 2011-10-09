@@ -48,7 +48,7 @@ class TeamVoteSchema(MappingSchema):
             css_class="teamTitle",
         ),
     )
-    # read-only friendly presentation of the team name
+    # read-only friendly presentation of the team description
     team_description = SchemaNode(
         String(),
         missing='',
