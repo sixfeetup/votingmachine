@@ -19,7 +19,7 @@
 
         <h1>Edit Team</h1>
         <p>Add FedEx day team details here</p>
-        <p tal:replace="structure form">The form will render here</p>
+        <tal:form replace="structure form">The form will render here</tal:form>
 
         <script type="text/javascript">
            deform.load()
