@@ -369,6 +369,8 @@ def results_view(context, request):
             vote_levels = team['rankings']['']
             for ranking in vote_levels:
                 total = scores.setdefault(team_obj, 0)
-                new_score = int(vote_levels[ranking]) * weights[ranking]
+                # default to 1.0 if the weight has gone missing
+                weight = weights.get(ranking, 1.0)
+                new_score = int(vote_levels[ranking]) * weight
                 scores[team_obj] = total + new_score
     return {'scores': sorted(scores.items(), cmp=lambda x, y: cmp(y[1], x[1]))}
