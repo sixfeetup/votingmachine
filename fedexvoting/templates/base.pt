@@ -5,15 +5,17 @@
     <head>
         <meta charset="utf-8" />
         <title>FedEx Day Voting Machine</title>
+
         <link rel="shortcut icon" href="${request.static_url('fedexvoting:static/favicon.ico')}" />
         <link rel="stylesheet" href="${request.static_url('fedexvoting:static/fedex.css')}" media="screen" />
+        <tal:block metal:define-slot="css_resources"></tal:block>
+
         <script type="text/javascript" src="${request.static_url('fedexvoting:static/jquery.js')}"></script>
         <script type="text/javascript" src="${request.static_url('fedexvoting:static/forms.js')}"></script>
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <tal:block metal:define-slot="resources">
-        </tal:block>
+        <tal:block metal:define-slot="js_resources"></tal:block>
     </head>
     <body>
         <div id="wrap">

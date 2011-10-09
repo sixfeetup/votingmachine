@@ -3,12 +3,17 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
 
-    <tal:block metal:fill-slot="resources">
-      <tal:resources repeat="tag resource_tags">
+    <tal:block metal:fill-slot="css_resources">
+      <tal:resources repeat="tag css_resources">
         <tal:tag replace="structure tag" />
       </tal:resources>
     </tal:block>
 
+    <tal:block metal:fill-slot="js_resources">
+      <tal:resources repeat="tag js_resources">
+        <tal:tag replace="structure tag" />
+      </tal:resources>
+    </tal:block>
 
     <tal:block metal:fill-slot="content">
 

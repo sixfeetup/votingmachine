@@ -39,7 +39,7 @@ def _form_resources(form):
     ltag = '<link rel="stylesheet" media="screen" type="text/css" href="%s"/>'
     js_tags = [jtag % link for link in js_links]
     css_tags = [ltag % link for link in css_links]
-    return css_tags + js_tags
+    return (css_tags, js_tags)
 
 
 def _folder_contents(context, request, interface, sort='title',
@@ -152,13 +152,17 @@ def voting_booth_view(context, request):
 def add_voting_booth(context, request):
     schema = VotingBoothSchema()
     form = Form(schema, buttons=('submit',))
-    resource_tags = _form_resources(form)
+    css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
         controls = request.POST.items()
         try:
             form.validate(controls)
         except (ValidationFailure,), e:
-            return {'form': e.render(), 'resource_tags': resource_tags}
+            return {
+                'form': e.render(),
+                'css_resources': css_resources,
+                'js_resources': js_resources,
+            }
         values = parse(request.params.items())
         start, end = _process_dates(values)
         voting_booth = VotingBooth(
@@ -182,7 +186,11 @@ def add_voting_booth(context, request):
         dict(vote_category='Awesomeness', weight='0.5'),
     ]
     appstruct = dict(categories=categories)
-    return {'form': form.render(appstruct), 'resource_tags': resource_tags}
+    return {
+        'form': form.render(appstruct),
+        'css_resources': css_resources,
+        'js_resources': js_resources,
+    }
 
 
 @view_config(name='edit', context=VotingBooth,
@@ -190,13 +198,17 @@ def add_voting_booth(context, request):
 def edit_voting_booth(context, request):
     schema = VotingBoothSchema()
     form = Form(schema, buttons=('submit',))
-    resource_tags = _form_resources(form)
+    css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
         controls = request.POST.items()
         try:
             form.validate(controls)
         except (ValidationFailure,), e:
-            return {'form': e.render(), 'resource_tags': resource_tags}
+            return {
+                'form': e.render(),
+                'css_resources': css_resources,
+                'js_resources': js_resources,
+            }
         values = parse(request.params.items())
         start, end = _process_dates(values)
         context.title = values['title']
@@ -210,7 +222,11 @@ def edit_voting_booth(context, request):
         end=context.end,
         categories=context.categories,
     )
-    return {'form': form.render(appstruct), 'resource_tags': resource_tags}
+    return {
+        'form': form.render(appstruct),
+        'css_resources': css_resources,
+        'js_resources': js_resources,
+    }
 
 
 @view_config(context=TeamFolder)
@@ -228,13 +244,17 @@ def team_view(context, request):
 def add_team(context, request):
     schema = TeamSchema()
     form = Form(schema, buttons=('submit',))
-    resource_tags = _form_resources(form)
+    css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
         controls = request.POST.items()
         try:
             form.validate(controls)
         except (ValidationFailure,), e:
-            return {'form': e.render(), 'resource_tags': resource_tags}
+            return {
+                'form': e.render(),
+                'css_resources': css_resources,
+                'js_resources': js_resources,
+            }
         params = request.params
         team = Team(
             title=params['title'],
@@ -243,7 +263,11 @@ def add_team(context, request):
         team.__parent__ = context
         context.add_team(team)
         return HTTPFound(location=request.resource_url(context.__parent__))
-    return {'form': form.render(), 'resource_tags': resource_tags}
+    return {
+        'form': form.render(),
+        'css_resources': css_resources,
+        'js_resources': js_resources,
+    }
 
 
 @view_config(name='edit', context=Team,
@@ -251,20 +275,28 @@ def add_team(context, request):
 def edit_team(context, request):
     schema = TeamSchema()
     form = Form(schema, buttons=('submit',))
-    resource_tags = _form_resources(form)
+    css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
         controls = request.POST.items()
         try:
             form.validate(controls)
         except (ValidationFailure,), e:
-            return {'form': e.render(), 'resource_tags': resource_tags}
+            return {
+                'form': e.render(),
+                'css_resources': css_resources,
+                'js_resources': js_resources,
+            }
         params = request.params
         context.title = params['title']
         context.description = params['description']
         # TODO: use find by interface here
         voting_booth = context.__parent__.__parent__
         return HTTPFound(location=request.resource_url(voting_booth))
-    return {'form': form.render(), 'resource_tags': resource_tags}
+    return {
+        'form': form.render(),
+        'css_resources': css_resources,
+        'js_resources': js_resources,
+    }
 
 
 @view_config(name='vote', context=VotingBooth,
@@ -273,7 +305,7 @@ def vote_view(context, request):
     schema = BallotSchema()
     _add_category_schema(context, request, schema)
     form = Form(schema, buttons=('submit',))
-    resource_tags = _form_resources(form)
+    css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
         controls = request.POST.items()
         try:
@@ -288,7 +320,11 @@ def vote_view(context, request):
                 team_title = team_obj.description
                 vote['team_title'] = team_title
                 vote['team_description'] = team_title
-            return {'form': e.render(), 'resource_tags': resource_tags}
+            return {
+                'form': e.render(),
+                'css_resources': css_resources,
+                'js_resources': js_resources,
+            }
         results = parse(request.params.items())['votes']
         context.results.append(results)
         context._p_changed = True
@@ -308,7 +344,11 @@ def vote_view(context, request):
         for team in teams
     ]
     appstruct = {'votes': team_dicts}
-    return {'form': form.render(appstruct), 'resource_tags': resource_tags}
+    return {
+        'form': form.render(appstruct),
+        'css_resources': css_resources,
+        'js_resources': js_resources,
+    }
 
 
 @view_config(name='results', context=VotingBooth,
