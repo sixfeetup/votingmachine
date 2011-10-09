@@ -40,12 +40,21 @@ class TeamVoteSchema(MappingSchema):
         widget=widget.HiddenWidget(),
     )
     # read-only friendly presentation of the team name
-    team = SchemaNode(
+    team_title = SchemaNode(
         String(),
         missing='',
         widget=widget.TextInputWidget(
             template="readonly_textinput",
             css_class="teamTitle",
+        ),
+    )
+    # read-only friendly presentation of the team name
+    team_description = SchemaNode(
+        String(),
+        missing='',
+        widget=widget.TextInputWidget(
+            template="readonly_textinput",
+            css_class="teamDescription",
         ),
     )
 

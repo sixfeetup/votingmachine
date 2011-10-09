@@ -274,8 +274,11 @@ def vote_view(context, request):
             cstruct = e.cstruct
             for vote in cstruct['votes']:
                 team_id = vote['team_hidden']
-                team_title = context['teams'][team_id].title
-                vote['team'] = team_title
+                team_obj = context['teams'][team_id]
+                team_title = team_obj.title
+                team_title = team_obj.description
+                vote['team_title'] = team_title
+                vote['team_description'] = team_title
             return {'form': e.render(), 'resource_tags': resource_tags}
         results = parse(request.params.items())['votes']
         context.results.append(results)
@@ -288,7 +291,11 @@ def vote_view(context, request):
         ITeamFolder,
     )
     team_dicts = [
-        dict(team_hidden=team['item'].__name__, team=team['item'].title)
+        dict(
+            team_hidden=team['item'].__name__,
+            team_title=team['item'].title,
+            team_description=team['item'].description,
+        )
         for team in teams
     ]
     appstruct = {'votes': team_dicts}

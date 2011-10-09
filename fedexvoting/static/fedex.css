@@ -265,6 +265,11 @@ a.deformSeqAdd {
     color: #f07817;
     font-weight: bold;
 }
+.deformMappingFieldset .teamDescription {
+    color: #666666;
+    font-size: 12px;
+    /* this is wrong... */
+    margin-top: -25px;
 }
 .deform ul.deformSet {
     margin-left: 200px;
