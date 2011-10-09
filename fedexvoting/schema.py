@@ -44,7 +44,8 @@ class TeamVoteSchema(MappingSchema):
         String(),
         missing='',
         widget=widget.TextInputWidget(
-            template="readonly/textinput",
+            template="readonly_textinput",
+            css_class="teamTitle",
         ),
     )
 

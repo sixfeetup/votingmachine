@@ -1,0 +1,1 @@
+<p id="${field.oid}" tal:attributes="class field.widget.css_class">${cstruct}</p>

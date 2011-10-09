@@ -258,10 +258,13 @@ a.deformSeqAdd {
     background-color: #eeeeee;
 }
 .deformMappingFieldset p {
+    padding: 10px 0 0 5px;
+}
+.deformMappingFieldset .teamTitle {
     font-size: 18px;
     color: #f07817;
     font-weight: bold;
-    padding: 10px 0 0 5px;
+}
 }
 .deform ul.deformSet {
     margin-left: 200px;
