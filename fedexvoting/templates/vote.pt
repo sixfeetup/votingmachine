@@ -20,7 +20,9 @@
         <h1>Place your vote</h1>
         <p>Rank each team by category. 1 = low, 2 = medium, 3 = high</p>
 
+        <div id="vote-form">
             <tal:form replace="structure form">The form will render here</tal:form>
+        </div>
 
         <script type="text/javascript">
            deform.load()

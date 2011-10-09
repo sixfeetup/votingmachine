@@ -233,22 +233,22 @@ body:before {
 }
 
 /* forms */
-.deformMappingFieldset legend,
-.deformClosebutton,
-a.deformSeqAdd {
+#vote-form .deformMappingFieldset legend,
+#vote-form .deformClosebutton,
+#vote-form a.deformSeqAdd {
     display: none !important;
 }
-.deform label.desc {
+#vote-form .deform label.desc {
     float: left;
 }
 .deform li {
     margin: 0 !important;
     padding: 7px !important;
 }
-.deformSeq > ul {
+#vote-form .deformSeq > ul {
     clear: both;
 }
-.deformSeq > ul > li { 
+#vote-form .deformSeq > ul > li { 
     width: 425px;
     margin-right: 25px;
     float: left;
