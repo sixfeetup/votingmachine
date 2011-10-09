@@ -14,7 +14,7 @@
 
         <h1>This is the voting booth edit page</h1>
         <p>Add FedEx day details here</p>
-        <p tal:replace="structure form">The form will render here</p>
+        <tal:form replace="structure form">The form will render here</tal:form>
 
         <script type="text/javascript">
            deform.load()
