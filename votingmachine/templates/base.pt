@@ -6,12 +6,12 @@
         <meta charset="utf-8" />
         <title>FedEx Day Voting Machine</title>
 
-        <link rel="shortcut icon" href="${request.static_url('fedexvoting:static/favicon.ico')}" />
-        <link rel="stylesheet" href="${request.static_url('fedexvoting:static/fedex.css')}" media="screen" />
+        <link rel="shortcut icon" href="${request.static_url('votingmachine:static/favicon.ico')}" />
+        <link rel="stylesheet" href="${request.static_url('votingmachine:static/fedex.css')}" media="screen" />
         <tal:block metal:define-slot="css_resources"></tal:block>
 
-        <script type="text/javascript" src="${request.static_url('fedexvoting:static/jquery.js')}"></script>
-        <script type="text/javascript" src="${request.static_url('fedexvoting:static/forms.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('votingmachine:static/jquery.js')}"></script>
+        <script type="text/javascript" src="${request.static_url('votingmachine:static/forms.js')}"></script>
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -21,7 +21,7 @@
         <div id="wrap">
             <header>
                 <a href="${request.application_url}">
-                    <img src="${request.static_url('fedexvoting:static/logo.png')}" alt="FedEx Day Voting Machine" />
+                    <img src="${request.static_url('votingmachine:static/logo.png')}" alt="FedEx Day Voting Machine" />
                 </a>
             </header>
             <div id="bottom">
@@ -31,7 +31,7 @@
             </div>
         </div>
         <footer>
-            <p>Created by Six Feet Up, Inc. Get the source on <a href="http://github.com/sixfeetup/fedexvoting">github</a>.<br />
+            <p>Created by Six Feet Up, Inc. Get the source on <a href="http://github.com/sixfeetup/votingmachine">github</a>.<br />
                 The FedEx name is a registered trademark</p>
         </footer>
     </body>

@@ -12,8 +12,8 @@ class TestResultsView(object):
 
     def no_votes_test(self):
         from datetime import datetime
-        from fedexvoting.views import results_view
-        from fedexvoting.models import VotingBooth
+        from votingmachine.views import results_view
+        from votingmachine.models import VotingBooth
         request = testing.DummyRequest()
         context = VotingBooth(
             'Test Voting Booth',
@@ -26,10 +26,10 @@ class TestResultsView(object):
 
     def one_category_no_weight_test(self):
         from datetime import datetime
-        from fedexvoting.views import results_view
-        from fedexvoting.models import VotingBooth
-        from fedexvoting.models import TeamFolder
-        from fedexvoting.models import Team
+        from votingmachine.views import results_view
+        from votingmachine.models import VotingBooth
+        from votingmachine.models import TeamFolder
+        from votingmachine.models import Team
         request = testing.DummyRequest()
         context = VotingBooth(
             'Test Voting Booth',
@@ -48,10 +48,10 @@ class TestResultsView(object):
 
     def one_category_with_weight_test(self):
         from datetime import datetime
-        from fedexvoting.views import results_view
-        from fedexvoting.models import VotingBooth
-        from fedexvoting.models import TeamFolder
-        from fedexvoting.models import Team
+        from votingmachine.views import results_view
+        from votingmachine.models import VotingBooth
+        from votingmachine.models import TeamFolder
+        from votingmachine.models import Team
         request = testing.DummyRequest()
         context = VotingBooth(
             'Test Voting Booth',
@@ -70,10 +70,10 @@ class TestResultsView(object):
 
     def one_category_with_weight_3_test(self):
         from datetime import datetime
-        from fedexvoting.views import results_view
-        from fedexvoting.models import VotingBooth
-        from fedexvoting.models import TeamFolder
-        from fedexvoting.models import Team
+        from votingmachine.views import results_view
+        from votingmachine.models import VotingBooth
+        from votingmachine.models import TeamFolder
+        from votingmachine.models import Team
         request = testing.DummyRequest()
         context = VotingBooth(
             'Test Voting Booth',
@@ -92,10 +92,10 @@ class TestResultsView(object):
 
     def one_category_with_weight_multiple_votes_test(self):
         from datetime import datetime
-        from fedexvoting.views import results_view
-        from fedexvoting.models import VotingBooth
-        from fedexvoting.models import TeamFolder
-        from fedexvoting.models import Team
+        from votingmachine.views import results_view
+        from votingmachine.models import VotingBooth
+        from votingmachine.models import TeamFolder
+        from votingmachine.models import Team
         request = testing.DummyRequest()
         context = VotingBooth(
             'Test Voting Booth',
@@ -117,10 +117,10 @@ class TestResultsView(object):
 
     def one_category_with_weight_multiple_votes_and_teams_test(self):
         from datetime import datetime
-        from fedexvoting.views import results_view
-        from fedexvoting.models import VotingBooth
-        from fedexvoting.models import TeamFolder
-        from fedexvoting.models import Team
+        from votingmachine.views import results_view
+        from votingmachine.models import VotingBooth
+        from votingmachine.models import TeamFolder
+        from votingmachine.models import Team
         request = testing.DummyRequest()
         context = VotingBooth(
             'Test Voting Booth',
@@ -146,10 +146,10 @@ class TestResultsView(object):
 
     def multiple_categories_test(self):
         from datetime import datetime
-        from fedexvoting.views import results_view
-        from fedexvoting.models import VotingBooth
-        from fedexvoting.models import TeamFolder
-        from fedexvoting.models import Team
+        from votingmachine.views import results_view
+        from votingmachine.models import VotingBooth
+        from votingmachine.models import TeamFolder
+        from votingmachine.models import Team
         request = testing.DummyRequest()
         context = VotingBooth(
             'Test Voting Booth',
@@ -173,10 +173,10 @@ class TestResultsView(object):
 
     def multiple_categories_multiple_votes_test(self):
         from datetime import datetime
-        from fedexvoting.views import results_view
-        from fedexvoting.models import VotingBooth
-        from fedexvoting.models import TeamFolder
-        from fedexvoting.models import Team
+        from votingmachine.views import results_view
+        from votingmachine.models import VotingBooth
+        from votingmachine.models import TeamFolder
+        from votingmachine.models import Team
         request = testing.DummyRequest()
         context = VotingBooth(
             'Test Voting Booth',
@@ -206,10 +206,10 @@ class TestResultsView(object):
 
     def multiple_categories_multiple_votes_multiple_teams_test(self):
         from datetime import datetime
-        from fedexvoting.views import results_view
-        from fedexvoting.models import VotingBooth
-        from fedexvoting.models import TeamFolder
-        from fedexvoting.models import Team
+        from votingmachine.views import results_view
+        from votingmachine.models import VotingBooth
+        from votingmachine.models import TeamFolder
+        from votingmachine.models import Team
         request = testing.DummyRequest()
         context = VotingBooth(
             'Test Voting Booth',
