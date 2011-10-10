@@ -9,18 +9,18 @@ from deform import ValidationFailure
 from deform import Form
 from deform import widget
 
-from fedexvoting.models import ITeamFolder
-from fedexvoting.models import IVotingBoothFolder
+from votingmachine.models import ITeamFolder
+from votingmachine.models import IVotingBoothFolder
 
-from fedexvoting.models import PollingPlace
-from fedexvoting.models import VotingBoothFolder
-from fedexvoting.models import VotingBooth
-from fedexvoting.models import Team
-from fedexvoting.models import TeamFolder
+from votingmachine.models import PollingPlace
+from votingmachine.models import VotingBoothFolder
+from votingmachine.models import VotingBooth
+from votingmachine.models import Team
+from votingmachine.models import TeamFolder
 
-from fedexvoting.schema import VotingBoothSchema
-from fedexvoting.schema import TeamSchema
-from fedexvoting.schema import BallotSchema
+from votingmachine.schema import VotingBoothSchema
+from votingmachine.schema import TeamSchema
+from votingmachine.schema import BallotSchema
 
 CATEGORY_RANK = (
     (1, '1'),
@@ -106,7 +106,7 @@ def _add_category_schema(context, request, schema):
 
 
 @view_config(context=PollingPlace,
-    renderer='fedexvoting:templates/polling_place.pt')
+    renderer='votingmachine:templates/polling_place.pt')
 def polling_view(context, request):
     current_votes = _folder_contents(
         context['votes'],
@@ -124,7 +124,7 @@ def polling_view(context, request):
 
 
 @view_config(context=VotingBoothFolder,
-    renderer='fedexvoting:templates/voting_booth_folder.pt')
+    renderer='votingmachine:templates/voting_booth_folder.pt')
 def voting_booth_folder(context, request):
     booths = _folder_contents(
         context,
@@ -137,7 +137,7 @@ def voting_booth_folder(context, request):
 
 
 @view_config(context=VotingBooth,
-    renderer='fedexvoting:templates/voting_booth.pt')
+    renderer='votingmachine:templates/voting_booth.pt')
 def voting_booth_view(context, request):
     teams = _folder_contents(
         context['teams'],
@@ -148,7 +148,7 @@ def voting_booth_view(context, request):
 
 
 @view_config(name='add', context=VotingBoothFolder,
-    renderer='fedexvoting:templates/voting_booth_edit.pt')
+    renderer='votingmachine:templates/voting_booth_edit.pt')
 def add_voting_booth(context, request):
     schema = VotingBoothSchema()
     form = Form(schema, buttons=('submit',))
@@ -194,7 +194,7 @@ def add_voting_booth(context, request):
 
 
 @view_config(name='edit', context=VotingBooth,
-    renderer='fedexvoting:templates/voting_booth_edit.pt')
+    renderer='votingmachine:templates/voting_booth_edit.pt')
 def edit_voting_booth(context, request):
     schema = VotingBoothSchema()
     form = Form(schema, buttons=('submit',))
@@ -240,7 +240,7 @@ def team_view(context, request):
 
 
 @view_config(name='add', context=TeamFolder,
-    renderer='fedexvoting:templates/team_edit.pt')
+    renderer='votingmachine:templates/team_edit.pt')
 def add_team(context, request):
     schema = TeamSchema()
     form = Form(schema, buttons=('submit',))
@@ -271,7 +271,7 @@ def add_team(context, request):
 
 
 @view_config(name='edit', context=Team,
-    renderer='fedexvoting:templates/team_edit.pt')
+    renderer='votingmachine:templates/team_edit.pt')
 def edit_team(context, request):
     schema = TeamSchema()
     form = Form(schema, buttons=('submit',))
@@ -300,7 +300,7 @@ def edit_team(context, request):
 
 
 @view_config(name='vote', context=VotingBooth,
-    renderer='fedexvoting:templates/vote.pt')
+    renderer='votingmachine:templates/vote.pt')
 def vote_view(context, request):
     schema = BallotSchema()
     _add_category_schema(context, request, schema)
@@ -352,7 +352,7 @@ def vote_view(context, request):
 
 
 @view_config(name='results', context=VotingBooth,
-    renderer='fedexvoting:templates/results.pt')
+    renderer='votingmachine:templates/results.pt')
 def results_view(context, request):
     """This is pretty ugly, needs a re-factoring
     """

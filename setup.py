@@ -20,9 +20,9 @@ requires = [
     'nose',
     ]
 
-setup(name='fedexvoting',
+setup(name='votingmachine',
       version='1.0.8',
-      description='fedexvoting',
+      description='votingmachine',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
         "Programming Language :: Python",
@@ -39,11 +39,10 @@ setup(name='fedexvoting',
       zip_safe=False,
       install_requires = requires,
       tests_require= requires,
-      test_suite="fedexvoting",
+      test_suite="votingmachine",
       entry_points = """\
       [paste.app_factory]
-      main = fedexvoting:main
+      main = votingmachine:main
       """,
       paster_plugins=['pyramid'],
       )
-
