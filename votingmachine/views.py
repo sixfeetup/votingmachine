@@ -1,6 +1,9 @@
 from datetime import datetime
 from types import StringTypes
 from pyramid.httpexceptions import HTTPFound
+from pyramid.security import authenticated_userid
+from pyramid.security import remember
+from pyramid.security import forget
 from pyramid.view import view_config
 from pyramid.traversal import find_interface
 import colander
@@ -21,6 +24,8 @@ from votingmachine.models import TeamFolder
 from votingmachine.schema import VotingBoothSchema
 from votingmachine.schema import TeamSchema
 from votingmachine.schema import BallotSchema
+
+from votingmachine.security import USERS
 
 CATEGORY_RANK = (
     (1, '1'),
@@ -104,10 +109,55 @@ def _add_category_schema(context, request, schema):
         )
     )
 
+@view_config(
+    context=PollingPlace, name='login',
+    renderer='templates/login.pt', permission='view')
+@view_config(
+    context='pyramid.httpexceptions.HTTPForbidden',
+    renderer='templates/login.pt')
+def login(request):
+    logged_in = authenticated_userid(request)
+    login_url = request.resource_url(request.context, 'login')
+    referrer = request.url
+    if referrer == login_url:
+        referrer = '/' # never use the login form itself as came_from
+    came_from = request.params.get('came_from', referrer)
+    message = ''
+    login = ''
+    password = ''
+    if 'form.submitted' in request.params:
+        login = request.params['login']
+        password = request.params['password']
+        if USERS.get(login) == password:
+            headers = remember(request, login)
+            return HTTPFound(location = came_from,
+                             headers = headers)
+        message = 'Failed login'
+
+    return dict(
+        message=message,
+        url=request.application_url + '/login',
+        came_from=came_from,
+        login=login,
+        password=password,
+        logged_in=logged_in,
+    )
+
+
+@view_config(context=PollingPlace, name='logout')
+def logout(request):
+    logged_in = authenticated_userid(request)
+    headers = forget(request)
+    return HTTPFound(
+        location=request.resource_url(request.context),
+        headers=headers,
+    )
+
 
 @view_config(context=PollingPlace,
-    renderer='votingmachine:templates/polling_place.pt')
+    renderer='votingmachine:templates/polling_place.pt', permission='view')
 def polling_view(context, request):
+    logged_in = authenticated_userid(request)
     current_votes = _folder_contents(
         context['votes'],
         request,
@@ -120,12 +170,17 @@ def polling_view(context, request):
         current_vote = current_votes[0]
     else:
         current_vote = None
-    return {'current_vote': current_vote}
+    return {
+        'current_vote': current_vote,
+        'logged_in': logged_in,
+    }
 
 
 @view_config(context=VotingBoothFolder,
-    renderer='votingmachine:templates/voting_booth_folder.pt')
+    renderer='votingmachine:templates/voting_booth_folder.pt',
+    permission='view')
 def voting_booth_folder(context, request):
+    logged_in = authenticated_userid(request)
     booths = _folder_contents(
         context,
         request,
@@ -133,23 +188,31 @@ def voting_booth_folder(context, request):
         sort='start',
         sort_order='descending',
     )
-    return {'booths': booths}
+    return {
+        'booths': booths,
+        'logged_in': logged_in,
+    }
 
 
 @view_config(context=VotingBooth,
-    renderer='votingmachine:templates/voting_booth.pt')
+    renderer='votingmachine:templates/voting_booth.pt', permission='view')
 def voting_booth_view(context, request):
+    logged_in = authenticated_userid(request)
     teams = _folder_contents(
         context['teams'],
         request,
         ITeamFolder,
     )
-    return {'teams': teams}
+    return {
+        'teams': teams,
+        'logged_in': logged_in,
+    }
 
 
 @view_config(name='add', context=VotingBoothFolder,
-    renderer='votingmachine:templates/voting_booth_edit.pt')
+    renderer='votingmachine:templates/voting_booth_edit.pt', permission='edit')
 def add_voting_booth(context, request):
+    logged_in = authenticated_userid(request)
     schema = VotingBoothSchema()
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
@@ -190,12 +253,14 @@ def add_voting_booth(context, request):
         'form': form.render(appstruct),
         'css_resources': css_resources,
         'js_resources': js_resources,
+        'logged_in': logged_in,
     }
 
 
 @view_config(name='edit', context=VotingBooth,
-    renderer='votingmachine:templates/voting_booth_edit.pt')
+    renderer='votingmachine:templates/voting_booth_edit.pt', permission='edit')
 def edit_voting_booth(context, request):
+    logged_in = authenticated_userid(request)
     schema = VotingBoothSchema()
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
@@ -208,6 +273,7 @@ def edit_voting_booth(context, request):
                 'form': e.render(),
                 'css_resources': css_resources,
                 'js_resources': js_resources,
+                'logged_in': logged_in,
             }
         values = parse(request.params.items())
         start, end = _process_dates(values)
@@ -226,6 +292,7 @@ def edit_voting_booth(context, request):
         'form': form.render(appstruct),
         'css_resources': css_resources,
         'js_resources': js_resources,
+        'logged_in': logged_in,
     }
 
 
@@ -240,8 +307,9 @@ def team_view(context, request):
 
 
 @view_config(name='add', context=TeamFolder,
-    renderer='votingmachine:templates/team_edit.pt')
+    renderer='votingmachine:templates/team_edit.pt', permission='edit')
 def add_team(context, request):
+    logged_in = authenticated_userid(request)
     schema = TeamSchema()
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
@@ -254,6 +322,7 @@ def add_team(context, request):
                 'form': e.render(),
                 'css_resources': css_resources,
                 'js_resources': js_resources,
+                'logged_in': logged_in,
             }
         params = request.params
         team = Team(
@@ -267,12 +336,14 @@ def add_team(context, request):
         'form': form.render(),
         'css_resources': css_resources,
         'js_resources': js_resources,
+        'logged_in': logged_in,
     }
 
 
 @view_config(name='edit', context=Team,
-    renderer='votingmachine:templates/team_edit.pt')
+    renderer='votingmachine:templates/team_edit.pt', permission='edit')
 def edit_team(context, request):
+    logged_in = authenticated_userid(request)
     schema = TeamSchema()
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
@@ -285,6 +356,7 @@ def edit_team(context, request):
                 'form': e.render(),
                 'css_resources': css_resources,
                 'js_resources': js_resources,
+                'logged_in': logged_in,
             }
         params = request.params
         context.title = params['title']
@@ -296,12 +368,14 @@ def edit_team(context, request):
         'form': form.render(),
         'css_resources': css_resources,
         'js_resources': js_resources,
+        'logged_in': logged_in,
     }
 
 
 @view_config(name='vote', context=VotingBooth,
-    renderer='votingmachine:templates/vote.pt')
+    renderer='votingmachine:templates/vote.pt', permission='edit')
 def vote_view(context, request):
+    logged_in = authenticated_userid(request)
     schema = BallotSchema()
     _add_category_schema(context, request, schema)
     form = Form(schema, buttons=('submit',))
@@ -324,6 +398,7 @@ def vote_view(context, request):
                 'form': e.render(),
                 'css_resources': css_resources,
                 'js_resources': js_resources,
+                'logged_in': logged_in,
             }
         results = parse(request.params.items())['votes']
         context.results.append(results)
@@ -348,14 +423,16 @@ def vote_view(context, request):
         'form': form.render(appstruct),
         'css_resources': css_resources,
         'js_resources': js_resources,
+        'logged_in': logged_in,
     }
 
 
 @view_config(name='results', context=VotingBooth,
-    renderer='votingmachine:templates/results.pt')
+    renderer='votingmachine:templates/results.pt', permission='view')
 def results_view(context, request):
     """This is pretty ugly, needs a re-factoring
     """
+    logged_in = authenticated_userid(request)
     scores = {}
     # build up the list of weights
     weights = {}
@@ -375,4 +452,7 @@ def results_view(context, request):
                 weight = weights.get(ranking, 1.0)
                 new_score = int(vote_levels[ranking]) * weight
                 scores[team_obj] = total + new_score
-    return {'scores': sorted(scores.items(), cmp=lambda x, y: cmp(y[1], x[1]))}
+    return {
+        'scores': sorted(scores.items(), cmp=lambda x, y: cmp(y[1], x[1])),
+        'logged_in': logged_in,
+    }

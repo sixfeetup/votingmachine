@@ -2,11 +2,17 @@ from persistent import Persistent
 from persistent.mapping import PersistentMapping
 from zope.interface import Interface
 from zope.interface import implements
+from pyramid.security import Allow
+from pyramid.security import Everyone
 from repoze.folder import Folder
 
 
 class PollingPlace(PersistentMapping):
     __parent__ = __name__ = None
+    __acl__ = [
+        (Allow, Everyone, 'view'),
+        (Allow, 'group:administrators', 'edit'),
+    ]
 
 
 class IVotingBoothFolder(Interface):

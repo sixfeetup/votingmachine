@@ -24,6 +24,9 @@
                     <img src="${request.static_url('votingmachine:static/logo.png')}" alt="FedEx Day Voting Machine" />
                 </a>
             </header>
+            <tal:logout condition="logged_in">
+                <a href="${request.application_url}/logout">Logout</a>
+            </tal:logout>
             <div id="bottom">
                 <tal:block metal:define-slot="content">
                     Templates fill in the content here
