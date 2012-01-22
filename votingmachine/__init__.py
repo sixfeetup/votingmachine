@@ -15,8 +15,10 @@ def main(global_config, **settings):
     Form.set_zpt_renderer(search_path)
     zodb_uri = settings['zodb_uri']
     finder = PersistentApplicationFinder(zodb_uri, appmaker)
+
     def get_root(request):
         return finder(request.environ)
+
     # pyramid configuration
     config = Configurator(root_factory=get_root, settings=settings)
     # subscriber for base template setup

@@ -47,6 +47,7 @@ def _folder_contents(context, request, interface, sort='title',
     folder = find_interface(context, interface)
     items = []
     keys = list(folder.keys())
+
     def sort_by(x, y):
         attr1 = getattr(folder[x], sort)
         attr2 = getattr(folder[y], sort)
@@ -54,6 +55,7 @@ def _folder_contents(context, request, interface, sort='title',
             attr1 = attr1.lower()
             attr2 = attr2.lower()
         return cmp(attr1, attr2)
+
     keys.sort(sort_by)
     if sort_order == 'descending':
         keys.reverse()
