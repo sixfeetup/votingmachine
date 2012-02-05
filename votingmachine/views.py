@@ -132,9 +132,11 @@ def login(request):
         password = request.params['password']
         if USERS.get(login) == password:
             headers = remember(request, login)
-            return HTTPFound(location = came_from,
-                             headers = headers)
-        message = 'Failed login'
+            return HTTPFound(location=came_from, headers=headers)
+        message = (
+            'The username or password that you entered was not correct, try '
+            'again'
+        )
 
     return dict(
         message=message,
