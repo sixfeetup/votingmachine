@@ -153,7 +153,6 @@ def login(request):
 
 @view_config(context=PollingPlace, name='logout')
 def logout(request):
-    logged_in = authenticated_userid(request)
     headers = forget(request)
     return HTTPFound(
         location=request.resource_url(request.context),
