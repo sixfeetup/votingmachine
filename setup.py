@@ -19,6 +19,7 @@ requires = [
     'repoze.whoplugins.zodb',
     'deform',
     'nose',
+    'WebError',
     ]
 
 setup(name='votingmachine',
