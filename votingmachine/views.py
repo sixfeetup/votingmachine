@@ -111,6 +111,7 @@ def _add_category_schema(context, request, schema):
         )
     )
 
+
 @view_config(
     context=PollingPlace, name='login',
     renderer='templates/login.pt', permission='view')
@@ -122,7 +123,7 @@ def login(request):
     login_url = request.resource_url(request.context, 'login')
     referrer = request.url
     if referrer == login_url:
-        referrer = '/' # never use the login form itself as came_from
+        referrer = '/'  # never use the login form itself as came_from
     came_from = request.params.get('came_from', referrer)
     message = ''
     login = ''
