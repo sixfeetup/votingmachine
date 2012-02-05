@@ -5,6 +5,7 @@ from zope.interface import implements
 from pyramid.security import Allow
 from pyramid.security import Everyone
 from repoze.folder import Folder
+from repoze.who.plugins.zodb.users import Users
 
 
 class PollingPlace(PersistentMapping):
@@ -77,6 +78,14 @@ class Team(Persistent):
         self.description = description
 
 
+class IUserFolder(Interface):
+    """Marker interface for the user folder"""
+
+
+class UserFolder(Users):
+    implements(IUserFolder)
+
+
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
         app_root = PollingPlace()
@@ -85,6 +94,14 @@ def appmaker(zodb_root):
         voting_booth.__name__ = 'votes'
         voting_booth.__parent__ = app_root
         app_root['votes'] = voting_booth
+        # set up the user folder
+        user_folder = UserFolder()
+        user_folder.__name__ = 'users'
+        user_folder.__parent__ = app_root
+        app_root['users'] = user_folder
+        # add a default admin user
+        app_root['users'].add('admin', 'admin', 'admin')
+        app_root['users'].add_user_to_group('admin', 'group:administrators')
         import transaction
         transaction.commit()
     return zodb_root['app_root']

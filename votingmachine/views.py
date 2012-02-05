@@ -11,6 +11,7 @@ from peppercorn import parse
 from deform import ValidationFailure
 from deform import Form
 from deform import widget
+from repoze.who.plugins.zodb.users import get_sha_password
 
 from votingmachine.models import ITeamFolder
 from votingmachine.models import IVotingBoothFolder
@@ -25,7 +26,6 @@ from votingmachine.schema import VotingBoothSchema
 from votingmachine.schema import TeamSchema
 from votingmachine.schema import BallotSchema
 
-from votingmachine.security import USERS
 
 CATEGORY_RANK = (
     (1, '1'),
@@ -130,7 +130,9 @@ def login(request):
     if 'form.submitted' in request.params:
         login = request.params['login']
         password = request.params['password']
-        if USERS.get(login) == password:
+        user_folder = request.context['users']
+        user = user_folder.get(login)
+        if user is not None and user['password'] == get_sha_password(password):
             headers = remember(request, login)
             return HTTPFound(location=came_from, headers=headers)
         message = (

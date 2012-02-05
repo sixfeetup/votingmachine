@@ -16,6 +16,7 @@ requires = [
     'repoze.retry',
     'repoze.tm2',
     'repoze.zodbconn',
+    'repoze.whoplugins.zodb',
     'deform',
     'nose',
     ]

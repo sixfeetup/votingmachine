@@ -1,7 +1,5 @@
-USERS = {'editor':'editor', 'viewer':'viewer'}
-GROUPS = {'editor':['group:administrators']}
-
-
 def groupfinder(userid, request):
-    if userid in USERS:
-        return GROUPS.get(userid, [])
+    root = request.root
+    user_folder = root['users']
+    user = user_folder.get(userid)
+    return user['groups']
