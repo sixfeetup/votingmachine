@@ -86,10 +86,39 @@ class UserFolder(Users):
     implements(IUserFolder)
 
 
+class IProfile(Interface):
+    """Marker interface for a profile"""
+
+
+class Profile(Persistent):
+    implements(IProfile)
+
+    def __init__(self, first_name, last_name, email, username):
+        """User Profile"""
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.username = username
+
+
+class IProfileFolder(Interface):
+    """Marker interface for profile folder"""
+
+
+class ProfileFolder(Folder):
+    implements(IProfileFolder)
+
+    def add_profile(self, profile):
+        # XXX: check for existing username
+        self[profile.username] = profile
+        return profile.username
+
+
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
         app_root = PollingPlace()
         zodb_root['app_root'] = app_root
+        # set up the folder for the votes
         voting_booth = VotingBoothFolder()
         voting_booth.__name__ = 'votes'
         voting_booth.__parent__ = app_root
@@ -102,6 +131,11 @@ def appmaker(zodb_root):
         # add a default admin user
         app_root['users'].add('admin', 'admin', 'admin')
         app_root['users'].add_user_to_group('admin', 'group:administrators')
+        # profiles folder
+        profile_folder = ProfileFolder()
+        profile_folder.__name__ = 'profiles'
+        profile_folder.__parent__ = app_root
+        app_root['profiles'] = profile_folder
         import transaction
         transaction.commit()
     return zodb_root['app_root']

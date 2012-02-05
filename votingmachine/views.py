@@ -21,10 +21,12 @@ from votingmachine.models import VotingBoothFolder
 from votingmachine.models import VotingBooth
 from votingmachine.models import Team
 from votingmachine.models import TeamFolder
+from votingmachine.models import Profile
 
 from votingmachine.schema import VotingBoothSchema
 from votingmachine.schema import TeamSchema
 from votingmachine.schema import BallotSchema
+from votingmachine.schema import ProfileAddSchema
 
 
 CATEGORY_RANK = (
@@ -370,6 +372,54 @@ def edit_team(context, request):
         # TODO: use find by interface here
         voting_booth = context.__parent__.__parent__
         return HTTPFound(location=request.resource_url(voting_booth))
+    return {
+        'form': form.render(),
+        'css_resources': css_resources,
+        'js_resources': js_resources,
+        'logged_in': logged_in,
+    }
+
+
+@view_config(name='register', context=PollingPlace,
+    renderer='votingmachine:templates/registration_form.pt')
+def add_profile(context, request):
+    logged_in = authenticated_userid(request)
+    schema = ProfileAddSchema()
+    schema.bind(root=request.root)
+    form = Form(schema, buttons=('submit',))
+    css_resources, js_resources = _form_resources(form)
+    if 'submit' in request.POST:
+        controls = request.POST.items()
+        try:
+            form.validate(controls)
+        except (ValidationFailure,), e:
+            return {
+                'form': e.render(),
+                'css_resources': css_resources,
+                'js_resources': js_resources,
+                'logged_in': logged_in,
+            }
+        params = parse(controls)
+        first_name = params['first_name']
+        last_name = params['last_name']
+        username = params['username']
+        email = params['email']
+        password = params['password']['value']
+        # Create the profile
+        profile = Profile(
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            email=email,
+            )
+        # Add the profile object
+        profile.__parent__ = context['profiles']
+        profile.__name__ = username
+        context['profiles'].add_profile(profile)
+        # Add the user object
+        user_folder = context['users']
+        user_folder.add(username, username, password)
+        return HTTPFound(location=request.resource_url(context.__parent__))
     return {
         'form': form.render(),
         'css_resources': css_resources,

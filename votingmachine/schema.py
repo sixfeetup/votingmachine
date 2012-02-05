@@ -1,3 +1,4 @@
+from pyramid.threadlocal import get_current_request
 from colander import MappingSchema
 from colander import SequenceSchema
 from colander import SchemaNode
@@ -5,8 +6,32 @@ from colander import String
 from colander import DateTime
 from colander import Float
 from colander import Int
+from colander import Function
 from deform import widget
 
+
+# Validators
+####################################################################
+
+def unique_email(email):
+    """XXX: use bind instead of using get_current_request
+    """
+    root = get_current_request().root
+    profiles = root['profiles'].values()
+    for profile in profiles:
+        if profile.email == email:
+            return False
+    return True
+
+
+def unique_username(username):
+    root = get_current_request().root
+    user_folder = root['users']
+    return not username in user_folder.byid
+
+
+# Schema
+####################################################################
 
 class CategorySchema(MappingSchema):
     vote_category = SchemaNode(String())
@@ -65,3 +90,20 @@ class VoteSchema(SequenceSchema):
 
 class BallotSchema(MappingSchema):
     votes = VoteSchema()
+
+
+class ProfileSchema(MappingSchema):
+    first_name = SchemaNode(String())
+    last_name = SchemaNode(String())
+    email = SchemaNode(
+        String(),
+        validator=Function(unique_email, 'Email already in use'),
+    )
+
+
+class ProfileAddSchema(ProfileSchema):
+    username = SchemaNode(
+        String(),
+        validator=Function(unique_username, 'Username already exists'),
+    )
+    password = SchemaNode(String(), widget=widget.CheckedPasswordWidget())

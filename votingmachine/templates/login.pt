@@ -15,6 +15,8 @@
           <input type="submit" name="form.submitted" value="Log In"/>
         </form>
 
+        <p>Don't have an account? <a href="${request.application_url}/register">Register now</a>.</p>
+
     </tal:block>
 </html>
 
