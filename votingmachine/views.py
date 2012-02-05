@@ -385,7 +385,6 @@ def edit_team(context, request):
 def add_profile(context, request):
     logged_in = authenticated_userid(request)
     schema = ProfileAddSchema()
-    schema.bind(root=request.root)
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
