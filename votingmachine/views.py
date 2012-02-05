@@ -114,6 +114,25 @@ def _add_category_schema(context, request, schema):
     )
 
 
+def _team_vocab(context, request):
+    root = request.root
+    # TODO: use a catalog and index these?
+    profiles = root['profiles']
+    profile_values = list(profiles.values())
+    profile_values.sort(key=lambda x: x.last_name)
+    vocab = []
+    names = set()
+    for profile in profile_values:
+        fullname = "%s %s" % (profile.first_name, profile.last_name)
+        if fullname in names:
+            names.add(fullname)
+            fullname = '%s (%s)' % (fullname, profile.username)
+        else:
+            names.add(fullname)
+        vocab.append((profile.username, fullname))
+    return vocab
+
+
 @view_config(
     context=PollingPlace, name='login',
     renderer='templates/login.pt', permission='view')
@@ -319,6 +338,8 @@ def team_view(context, request):
 def add_team(context, request):
     logged_in = authenticated_userid(request)
     schema = TeamSchema()
+    # XXX: this could end badly...
+    schema.children[2].widget.values = _team_vocab(context, request)
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
@@ -332,10 +353,11 @@ def add_team(context, request):
                 'js_resources': js_resources,
                 'logged_in': logged_in,
             }
-        params = request.params
+        params = parse(controls)
         team = Team(
             title=params['title'],
             description=params['description'],
+            members=params['members'],
             )
         team.__parent__ = context
         context.add_team(team)

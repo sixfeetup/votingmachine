@@ -52,10 +52,15 @@ class VotingBoothSchema(MappingSchema):
     categories = CategoriesSchema()
 
 
+class MembersSchema(SequenceSchema):
+    member = SchemaNode(String())
+
+
 class TeamSchema(MappingSchema):
     title = SchemaNode(String())
     # TODO: Turn this into rich text?
     description = SchemaNode(String(), missing='')
+    members = MembersSchema(widget=widget.CheckboxChoiceWidget())
 
 
 class TeamVoteSchema(MappingSchema):
