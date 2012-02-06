@@ -342,6 +342,7 @@ def add_team(context, request):
     schema = TeamSchema()
     # XXX: this could end badly...
     schema.children[2].widget.values = _team_vocab(context, request)
+    schema.children[3].widget.values = _team_vocab(context, request, True)
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
@@ -360,6 +361,7 @@ def add_team(context, request):
             title=params['title'],
             description=params['description'],
             members=params['members'],
+            leader=params['leader'],
             )
         team.__parent__ = context
         context.add_team(team)
@@ -377,6 +379,9 @@ def add_team(context, request):
 def edit_team(context, request):
     logged_in = authenticated_userid(request)
     schema = TeamSchema()
+    # XXX: this could end badly...
+    schema.children[2].widget.values = _team_vocab(context, request)
+    schema.children[3].widget.values = _team_vocab(context, request, True)
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
@@ -390,14 +395,22 @@ def edit_team(context, request):
                 'js_resources': js_resources,
                 'logged_in': logged_in,
             }
-        params = request.params
+        params = parse(controls)
         context.title = params['title']
         context.description = params['description']
+        context.members = params['members']
+        context.leader = params['leader']
         # TODO: use find by interface here
         voting_booth = context.__parent__.__parent__
         return HTTPFound(location=request.resource_url(voting_booth))
+    appstruct = dict(
+        title=context.title,
+        description=context.description,
+        members=context.members,
+        leader=context.leader,
+    )
     return {
-        'form': form.render(),
+        'form': form.render(appstruct),
         'css_resources': css_resources,
         'js_resources': js_resources,
         'logged_in': logged_in,

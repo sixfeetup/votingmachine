@@ -72,7 +72,7 @@ class TeamFolder(Folder):
 
 class Team(Persistent):
 
-    def __init__(self, title, description=None, members=None):
+    def __init__(self, title, description=None, members=None, leader=None):
         """A FedEx day team"""
         self.title = title
         self.description = description
@@ -80,6 +80,7 @@ class Team(Persistent):
             self.members = []
         else:
             self.members = members
+        self.leader = leader
 
 
 class IUserFolder(Interface):
