@@ -548,6 +548,6 @@ def results_view(context, request):
                 new_score = int(vote_levels[ranking]) * weight
                 scores[team_obj] = total + new_score
     return {
-        'scores': sorted(scores.items(), cmp=lambda x, y: cmp(y[1], x[1])),
+        'scores': sorted(scores.items(), key=lambda x: x[1], reverse=True),
         'logged_in': logged_in,
     }
