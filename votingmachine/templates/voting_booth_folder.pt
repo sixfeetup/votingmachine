@@ -6,7 +6,7 @@
         <nav>
             <a href="${request.resource_url(context.__parent__)}">^ up a level</a><br />
             <ul>
-                <li><a href="${request.resource_url(context)}/add">Add new FedEx Day</a></li>
+                <li tal:condition="context.can_add_booth()"><a href="${request.resource_url(context)}add">Add new FedEx Day</a></li>
             </ul>
         </nav>
         <h1>List of Previous FedEx Days</h1>

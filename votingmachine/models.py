@@ -4,6 +4,9 @@ from zope.interface import Interface
 from zope.interface import implements
 from pyramid.security import Allow
 from pyramid.security import Everyone
+from pyramid.security import Authenticated
+from pyramid.security import has_permission
+from pyramid.threadlocal import get_current_request
 from repoze.folder import Folder
 from repoze.who.plugins.zodb.users import Users
 
@@ -12,6 +15,9 @@ class PollingPlace(PersistentMapping):
     __parent__ = __name__ = None
     __acl__ = [
         (Allow, Everyone, 'view'),
+        (Allow, Authenticated, 'add:team'),
+        (Allow, Authenticated, 'vote'),
+        (Allow, 'group:administrators', 'add:booth'),
         (Allow, 'group:administrators', 'edit'),
     ]
 
@@ -32,6 +38,13 @@ class VotingBoothFolder(Folder):
         self[booth_id] = booth
         return booth_id
 
+    def can_add_booth(self):
+        """This seems totally wrong...
+        """
+        request = get_current_request()
+        permission = has_permission('add:booth', self, request)
+        return permission.boolval
+
 
 class IVotingBooth(Interface):
     """Marker interface for voting booth"""
@@ -51,6 +64,20 @@ class VotingBooth(Folder):
         self.end = end
         self.categories = categories
         self.results = []
+
+    def can_add_team(self):
+        """This seems totally wrong...
+        """
+        request = get_current_request()
+        permission = has_permission('add:team', self, request)
+        return permission.boolval
+
+    def can_vote(self):
+        """This seems totally wrong...
+        """
+        request = get_current_request()
+        permission = has_permission('vote', self, request)
+        return permission.boolval
 
 
 class ITeamFolder(Interface):
@@ -81,6 +108,19 @@ class Team(Persistent):
         else:
             self.members = members
         self.leader = leader
+
+    @property
+    def __acl__(self):
+        """Allow the leader to edit the team
+        """
+        return [(Allow, self.leader, 'edit')]
+
+    def can_edit(self):
+        """This seems totally wrong...
+        """
+        request = get_current_request()
+        permission = has_permission('edit', self, request)
+        return permission.boolval
 
 
 class IUserFolder(Interface):

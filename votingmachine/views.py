@@ -336,7 +336,8 @@ def team_view(context, request):
 
 
 @view_config(name='add', context=TeamFolder,
-    renderer='votingmachine:templates/team_edit.pt', permission='edit')
+             renderer='votingmachine:templates/team_edit.pt',
+             permission='add:team')
 def add_team(context, request):
     logged_in = authenticated_userid(request)
     schema = TeamSchema()
@@ -465,7 +466,7 @@ def add_profile(context, request):
 
 
 @view_config(name='vote', context=VotingBooth,
-    renderer='votingmachine:templates/vote.pt', permission='edit')
+    renderer='votingmachine:templates/vote.pt', permission='vote')
 def vote_view(context, request):
     logged_in = authenticated_userid(request)
     schema = BallotSchema()
