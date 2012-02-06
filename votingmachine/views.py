@@ -495,7 +495,7 @@ def vote_view(context, request):
                 'logged_in': logged_in,
             }
         results = parse(request.params.items())['votes']
-        context.results.append(results)
+        context.results[logged_in] = results
         context._p_changed = True
         return HTTPFound(location=request.resource_url(context))
     # set up the list of teams
@@ -533,7 +533,7 @@ def results_view(context, request):
     weights = {}
     for category in context.categories:
         weights[category['vote_category']] = float(category['weight'])
-    for vote in context.results:
+    for vote in context.results.values():
         for team in vote:
             team_id = int(team['team_hidden'])
             team_obj = context['teams'].get(team_id, None)

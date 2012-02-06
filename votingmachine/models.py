@@ -64,7 +64,7 @@ class VotingBooth(Folder):
         self.start = start
         self.end = end
         self.categories = categories
-        self.results = []
+        self.results = {}
 
     def can_add_team(self):
         """This seems totally wrong...
