@@ -7,6 +7,7 @@ from pyramid.security import Everyone
 from pyramid.security import Authenticated
 from pyramid.security import has_permission
 from pyramid.threadlocal import get_current_request
+from pyramid.traversal import find_root
 from repoze.folder import Folder
 from repoze.who.plugins.zodb.users import Users
 
@@ -114,6 +115,19 @@ class Team(Persistent):
         """Allow the leader to edit the team
         """
         return [(Allow, self.leader, 'edit')]
+
+    def member_fullname(self, username):
+        root = find_root(self)
+        profile = root['profiles'].get(username)
+        if profile is None:
+            return ''
+        return "%s %s" % (profile.first_name, profile.last_name)
+
+    def member_names(self):
+        names = []
+        for member in self.members:
+            names.append(self.member_fullname(member))
+        return names
 
     def can_edit(self):
         """This seems totally wrong...
