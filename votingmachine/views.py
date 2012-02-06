@@ -114,7 +114,7 @@ def _add_category_schema(context, request, schema):
     )
 
 
-def _team_vocab(context, request):
+def _team_vocab(context, request, select=False):
     root = request.root
     # TODO: use a catalog and index these?
     profiles = root['profiles']
@@ -130,6 +130,8 @@ def _team_vocab(context, request):
         else:
             names.add(fullname)
         vocab.append((profile.username, fullname))
+    if select:
+        vocab.insert(0, ('', 'Select a value'))
     return vocab
 
 
