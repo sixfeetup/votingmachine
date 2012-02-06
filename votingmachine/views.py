@@ -512,6 +512,7 @@ def vote_view(context, request):
             team_description=team['item'].description,
         )
         for team in teams
+        if logged_in not in team['item'].members
     ]
     appstruct = {'votes': team_dicts}
     return {
