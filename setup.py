@@ -10,7 +10,6 @@ requires = [
     'pyramid',
     'pyramid_zodbconn',
     'pyramid_tm',
-    'pyramid_debugtoolbar',
     'ZODB3',
     'repoze.folder',
     'repoze.retry',
@@ -19,7 +18,6 @@ requires = [
     'repoze.whoplugins.zodb',
     'deform',
     'nose',
-    'WebError',
     ]
 
 setup(name='votingmachine',
