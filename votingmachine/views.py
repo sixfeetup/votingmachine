@@ -508,6 +508,13 @@ def vote_view(context, request):
         for team in teams
         if logged_in not in team['item'].members
     ]
+    # put the current vote back in place
+    current_vote = context.results.get(logged_in, {})
+    for item in team_dicts:
+        team_id = item['team_hidden']
+        for vote in current_vote:
+            if vote['team_hidden'] == team_id:
+                item['rankings'] = vote['rankings']
     appstruct = {'votes': team_dicts}
     return {
         'form': form.render(appstruct),
