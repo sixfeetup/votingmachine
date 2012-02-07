@@ -478,10 +478,10 @@ def vote_view(context, request):
                 team_id = vote['team_hidden']
                 team_obj = context['teams'][team_id]
                 team_title = team_obj.title
-                team_descrip = team_obj.description
+                #team_descrip = team_obj.description
                 vote['team_title'] = team_title
                 vote['team_members'] = ', '.join(team_obj.member_names())
-                vote['team_description'] = team_descrip
+                #vote['team_description'] = team_descrip
             return {
                 'form': e.render(),
                 'css_resources': css_resources,
@@ -503,7 +503,7 @@ def vote_view(context, request):
             team_hidden=team['item'].__name__,
             team_title=team['item'].title,
             team_members=', '.join(team['item'].member_names()),
-            team_description=team['item'].description,
+            #team_description=team['item'].description,
         )
         for team in teams
         if logged_in not in team['item'].members
