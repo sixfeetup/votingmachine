@@ -24,15 +24,13 @@
                 <tal:teams repeat="team_item teams">
                     <tal:team define="team team_item.item">
                         <dt tal:content="team.title">Team Title</dt>
-                        <dd><a href="${request.resource_url(team)}edit" tal:condition="team.can_edit()">edit</a></dd>
                         <dd class="discreet"
                             tal:condition="team.members">
-                            Members
-                            <ul>
-                                <li tal:repeat="member team.members">
-                                    <b tal:omit-tag="member != team.leader">${team.member_fullname(member)}</b>
-                                </li>
-                            </ul>
+                            <p><a href="${request.resource_url(team)}edit" tal:condition="team.can_edit()">[edit] </a>Members:
+                                <tal:member repeat="member team.members">
+                                    <b tal:omit-tag="member != team.leader">${team.member_fullname(member)}</b><tal:comma tal:condition="not repeat.member.end">, </tal:comma>
+                                </tal:member>
+                            </p>
                         </dd>
                         <dd class="discreet"
                             tal:define="descrip team.description"
