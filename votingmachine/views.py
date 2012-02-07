@@ -30,9 +30,9 @@ from votingmachine.schema import ProfileAddSchema
 
 
 CATEGORY_RANK = (
-    (1, '1'),
-    (2, '2'),
-    (3, '3'),
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
 )
 
 
@@ -94,24 +94,18 @@ def _add_category_schema(context, request, schema):
     categories = context.categories
     if not categories:
         return
-    cat_vote_schema = colander.SchemaNode(colander.Mapping())
+    cat_vote_schema = colander.SchemaNode(colander.Mapping(), name='rankings')
     for cat in categories:
         cat_name = cat['vote_category']
         cat_vote_schema.add(
             colander.SchemaNode(
-                colander.Int(),
+                colander.String(),
                 name=cat_name,
                 widget=widget.RadioChoiceWidget(values=CATEGORY_RANK),
                 validator=colander.OneOf(dict(CATEGORY_RANK).keys()),
             )
         )
-    team_vote.add(
-        colander.SchemaNode(
-            colander.Mapping(),
-            cat_vote_schema,
-            name='rankings'
-        )
-    )
+    team_vote.add(cat_vote_schema)
 
 
 def _team_vocab(context, request, select=False):
@@ -540,8 +534,7 @@ def results_view(context, request):
             team_obj = context['teams'].get(team_id, None)
             if team_obj is None:
                 continue
-            # WTF is up with the empty key for the rankings?
-            vote_levels = team['rankings']['']
+            vote_levels = team['rankings']
             for ranking in vote_levels:
                 total = scores.setdefault(team_obj, 0)
                 # default to 1.0 if the weight has gone missing

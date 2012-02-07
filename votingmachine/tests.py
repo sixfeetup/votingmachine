@@ -40,7 +40,7 @@ class TestResultsView(object):
         context['teams'] = TeamFolder()
         context['teams'].add_team(Team('Team Zero'))
         context.results = {
-         'foo': [{'team_hidden': '0', 'rankings': {'': {'One Category': '1'}}}]
+         'foo': [{'team_hidden': '0', 'rankings': {'One Category': '1'}}]
         }
         results = results_view(context, request)
         tools.assert_equal(results['scores'][0][0].title, 'Team Zero')
@@ -62,7 +62,7 @@ class TestResultsView(object):
         context['teams'] = TeamFolder()
         context['teams'].add_team(Team('Team Zero'))
         context.results = {
-        'foo': [{'team_hidden': '0', 'rankings': {'': {'One Category': '1'}}}]
+        'foo': [{'team_hidden': '0', 'rankings': {'One Category': '1'}}]
         }
         results = results_view(context, request)
         tools.assert_equal(results['scores'][0][0].title, 'Team Zero')
@@ -84,7 +84,7 @@ class TestResultsView(object):
         context['teams'] = TeamFolder()
         context['teams'].add_team(Team('Team Zero'))
         context.results = {
-        'foo': [{'team_hidden': '0', 'rankings': {'': {'One Category': '3'}}}]
+        'foo': [{'team_hidden': '0', 'rankings': {'One Category': '3'}}]
         }
         results = results_view(context, request)
         tools.assert_equal(results['scores'][0][0].title, 'Team Zero')
@@ -106,10 +106,10 @@ class TestResultsView(object):
         context['teams'] = TeamFolder()
         context['teams'].add_team(Team('Team Zero'))
         context.results = {
-        'f1': [{'team_hidden': '0', 'rankings': {'': {'One Category': '3'}}}],
-        'f2': [{'team_hidden': '0', 'rankings': {'': {'One Category': '1'}}}],
-        'f3': [{'team_hidden': '0', 'rankings': {'': {'One Category': '2'}}}],
-        'f4': [{'team_hidden': '0', 'rankings': {'': {'One Category': '2'}}}],
+        'f1': [{'team_hidden': '0', 'rankings': {'One Category': '3'}}],
+        'f2': [{'team_hidden': '0', 'rankings': {'One Category': '1'}}],
+        'f3': [{'team_hidden': '0', 'rankings': {'One Category': '2'}}],
+        'f4': [{'team_hidden': '0', 'rankings': {'One Category': '2'}}],
         }
         results = results_view(context, request)
         tools.assert_equal(results['scores'][0][0].title, 'Team Zero')
@@ -133,8 +133,8 @@ class TestResultsView(object):
         context['teams'].add_team(Team('Team One'))
         context.results = {
             'foo': [
-                {'team_hidden': '0', 'rankings': {'': {'One Category': '3'}}},
-                {'team_hidden': '1', 'rankings': {'': {'One Category': '1'}}},
+                {'team_hidden': '0', 'rankings': {'One Category': '3'}},
+                {'team_hidden': '1', 'rankings': {'One Category': '1'}},
             ],
         }
         results = results_view(context, request)
@@ -163,8 +163,8 @@ class TestResultsView(object):
         context['teams'] = TeamFolder()
         context['teams'].add_team(Team('Team Zero'))
         context.results = {
-            'foo': [{'team_hidden': '0', 'rankings': {'': {
-                'One Category': '1', 'Two Category': '1'}}},
+            'foo': [{'team_hidden': '0', 'rankings': {
+                'One Category': '1', 'Two Category': '1'}},
             ]
         }
         results = results_view(context, request)
@@ -190,14 +190,14 @@ class TestResultsView(object):
         context['teams'] = TeamFolder()
         context['teams'].add_team(Team('Team Zero'))
         context.results = {
-            'foo': [{'team_hidden': '0', 'rankings': {'': {
-                'One Category': '3', 'Two Category': '2'}}},
+            'foo': [{'team_hidden': '0', 'rankings': {
+                'One Category': '3', 'Two Category': '2'}},
             ],
-            'foo1': [{'team_hidden': '0', 'rankings': {'': {
-                'One Category': '2', 'Two Category': '2'}}},
+            'foo1': [{'team_hidden': '0', 'rankings': {
+                'One Category': '2', 'Two Category': '2'}},
             ],
-            'foo2': [{'team_hidden': '0', 'rankings': {'': {
-                'One Category': '1', 'Two Category': '1'}}},
+            'foo2': [{'team_hidden': '0', 'rankings': {
+                'One Category': '1', 'Two Category': '1'}},
             ]
         }
         results = results_view(context, request)
@@ -224,20 +224,20 @@ class TestResultsView(object):
         context['teams'].add_team(Team('Team Zero'))
         context['teams'].add_team(Team('Team One'))
         context.results = {
-            'foo': [{'team_hidden': '0', 'rankings': {'': {
-                'One Category': '1', 'Two Category': '3'}}},
-             {'team_hidden': '1', 'rankings': {'': {
-                'One Category': '3', 'Two Category': '2'}}},
+            'foo': [{'team_hidden': '0', 'rankings': {
+                'One Category': '1', 'Two Category': '3'}},
+             {'team_hidden': '1', 'rankings': {
+                'One Category': '3', 'Two Category': '2'}},
             ],
-            'foo1': [{'team_hidden': '1', 'rankings': {'': {
-                'One Category': '2', 'Two Category': '2'}}},
-             {'team_hidden': '0', 'rankings': {'': {
-                'One Category': '3', 'Two Category': '2'}}},
+            'foo1': [{'team_hidden': '1', 'rankings': {
+                'One Category': '2', 'Two Category': '2'}},
+             {'team_hidden': '0', 'rankings': {
+                'One Category': '3', 'Two Category': '2'}},
             ],
-            'foo2': [{'team_hidden': '0', 'rankings': {'': {
-                'One Category': '1', 'Two Category': '1'}}},
-             {'team_hidden': '1', 'rankings': {'': {
-                'One Category': '1', 'Two Category': '1'}}},
+            'foo2': [{'team_hidden': '0', 'rankings': {
+                'One Category': '1', 'Two Category': '1'}},
+             {'team_hidden': '1', 'rankings': {
+                'One Category': '1', 'Two Category': '1'}},
             ]
         }
         results = results_view(context, request)
