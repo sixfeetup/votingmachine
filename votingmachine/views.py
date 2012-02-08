@@ -248,6 +248,7 @@ def add_voting_booth(context, request):
                 'form': e.render(),
                 'css_resources': css_resources,
                 'js_resources': js_resources,
+                'logged_in': logged_in,
             }
         values = parse(request.params.items())
         start, end = _process_dates(values)
