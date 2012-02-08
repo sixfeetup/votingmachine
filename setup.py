@@ -21,7 +21,7 @@ requires = [
     ]
 
 setup(name='votingmachine',
-      version='2.0.2',
+      version='2.0.3',
       description='votingmachine',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
