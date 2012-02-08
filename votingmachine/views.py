@@ -352,11 +352,16 @@ def add_team(context, request):
                 'logged_in': logged_in,
             }
         params = parse(controls)
+        leader = params['leader']
+        members = params['members']
+        # Add the leader if they didn't add themselves
+        if leader and leader not in members:
+            members.append(leader)
         team = Team(
             title=params['title'],
             description=params['description'],
-            members=params['members'],
-            leader=params['leader'],
+            members=members,
+            leader=leader,
             )
         team.__parent__ = context
         context.add_team(team)
@@ -393,8 +398,13 @@ def edit_team(context, request):
         params = parse(controls)
         context.title = params['title']
         context.description = params['description']
-        context.members = params['members']
-        context.leader = params['leader']
+        leader = params['leader']
+        context.leader = leader
+        members = params['members']
+        # Add the leader if they didn't add themselves
+        if leader and leader not in members:
+            members.append(leader)
+        context.members = members
         # TODO: use find by interface here
         voting_booth = context.__parent__.__parent__
         return HTTPFound(location=request.resource_url(voting_booth))
