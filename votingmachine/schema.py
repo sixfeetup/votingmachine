@@ -60,7 +60,10 @@ class TeamSchema(MappingSchema):
     title = SchemaNode(String())
     # TODO: Turn this into rich text?
     description = SchemaNode(String(), missing='')
-    members = MembersSchema(widget=widget.CheckboxChoiceWidget())
+    members = MembersSchema(
+        widget=widget.CheckboxChoiceWidget(),
+        missing=[],
+    )
     leader = SchemaNode(
         String(),
         missing='',
