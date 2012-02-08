@@ -30,6 +30,10 @@ def unique_username(username):
     return not username in user_folder.byid
 
 
+def one_category(categories):
+    return len(categories)
+
+
 # Schema
 ####################################################################
 
@@ -49,7 +53,11 @@ class VotingBoothSchema(MappingSchema):
         )
     start = SchemaNode(DateTime())
     end = SchemaNode(DateTime())
-    categories = CategoriesSchema()
+    categories = CategoriesSchema(
+        validator=Function(
+            one_category,
+            "You must set up at least one category"),
+    )
 
 
 class MembersSchema(SequenceSchema):
