@@ -114,7 +114,9 @@ class Team(Persistent):
     def __acl__(self):
         """Allow the leader to edit the team
         """
-        return [(Allow, self.leader, 'edit')]
+        if self.leader:
+            return [(Allow, self.leader, 'edit')]
+        return []
 
     def member_fullname(self, username):
         root = find_root(self)
