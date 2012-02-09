@@ -23,7 +23,7 @@ requires = [
 setup(name='votingmachine',
       version='2.0.5',
       description='votingmachine',
-      long_description=README + '\n\n' +  CHANGES,
+      long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",
         "Framework :: Pylons",
@@ -37,10 +37,10 @@ setup(name='votingmachine',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      install_requires = requires,
-      tests_require= requires,
+      install_requires=requires,
+      tests_require=requires,
       test_suite="votingmachine",
-      entry_points = """\
+      entry_points="""\
       [paste.app_factory]
       main = votingmachine:main
       """,
