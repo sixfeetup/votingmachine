@@ -546,19 +546,26 @@ def results_view(context, request):
     weights = {}
     for category in context.categories:
         weights[category['vote_category']] = float(category['weight'])
-    for vote in context.results.values():
-        for team in vote:
-            team_id = int(team['team_hidden'])
-            team_obj = context['teams'].get(team_id, None)
-            if team_obj is None:
-                continue
-            vote_levels = team['rankings']
+    votes_by_team = {}
+    for results in context.results.values():
+        for result in results:
+            team_id = result['team_hidden']
+            votes = votes_by_team.setdefault(team_id, [])
+            votes_by_team[team_id] = votes + [result]
+    for team, votes in votes_by_team.items():
+        team_id = int(team)
+        team_obj = context['teams'].get(team_id, None)
+        if team_obj is None:
+            continue
+        for vote in votes:
+            vote_levels = vote['rankings']
             for ranking in vote_levels:
                 total = scores.setdefault(team_obj, 0)
                 # default to 1.0 if the weight has gone missing
                 weight = weights.get(ranking, 1.0)
                 new_score = int(vote_levels[ranking]) * weight
                 scores[team_obj] = total + new_score
+        scores[team_obj] = scores[team_obj] / len(votes)
     return {
         'scores': sorted(scores.items(), key=lambda x: x[1], reverse=True),
         'logged_in': logged_in,

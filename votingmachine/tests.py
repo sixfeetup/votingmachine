@@ -113,7 +113,7 @@ class TestResultsView(object):
         }
         results = results_view(context, request)
         tools.assert_equal(results['scores'][0][0].title, 'Team Zero')
-        tools.assert_equal(results['scores'][0][1], 4.0)
+        tools.assert_equal(results['scores'][0][1], 1.0)
 
     def one_category_with_weight_multiple_votes_and_teams_test(self):
         from datetime import datetime
@@ -202,7 +202,8 @@ class TestResultsView(object):
         }
         results = results_view(context, request)
         tools.assert_equal(results['scores'][0][0].title, 'Team Zero')
-        tools.assert_equal(results['scores'][0][1], 8.5)
+        # Three votes total
+        tools.assert_equal(results['scores'][0][1], 8.5 / 3)
 
     def multiple_categories_multiple_votes_multiple_teams_test(self):
         from datetime import datetime
@@ -243,6 +244,7 @@ class TestResultsView(object):
         results = results_view(context, request)
         tools.assert_equal(len(results['scores']), 2)
         tools.assert_equal(results['scores'][0][0].title, 'Team One')
-        tools.assert_equal(results['scores'][0][1], 8.5)
+        # three votes total
+        tools.assert_equal(results['scores'][0][1], 8.5 / 3.0)
         tools.assert_equal(results['scores'][1][0].title, 'Team Zero')
-        tools.assert_equal(results['scores'][1][1], 8)
+        tools.assert_equal(results['scores'][1][1], 8.0 / 3.0)
