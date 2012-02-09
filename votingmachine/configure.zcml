@@ -1,0 +1,83 @@
+<configure xmlns="http://namespaces.repoze.org/bfg">
+
+  <include package="repoze.workflow" file="meta.zcml"/>
+
+  <workflow
+      type="security"
+      name="Voting Booth Workflow"
+      state_attr="state"
+      initial_state="private"
+      content_types="votingmachine.models.VotingBooth"
+      permission_checker="pyramid.security.has_permission">
+
+    <state name="private" callback=".security.callback">
+      <key name="title" value="Private"/>
+      <key name="description" value="Nobody can see it"/>
+    </state>
+
+    <state name="caucus" callback=".security.callback">
+      <key name="title" value="Caucus"/>
+      <key name="description" value="Teams can be formed"/>
+    </state>
+
+    <state name="voting" callback=".security.callback">
+      <key name="title" value="Voting"/>
+      <key name="description" value="Votes can be cast"/>
+    </state>
+
+    <state name="closed" callback=".security.callback">
+      <key name="title" value="Public"/>
+      <key name="description" value="Polls are closed and the results are in"/>
+    </state>
+
+    <transition
+        name="open_nominations"
+        callback=".security.callback"
+        from_state="private"
+        to_state="caucus"
+        permission="review"
+        />
+
+    <transition
+        name="open_voting"
+        callback=".security.callback"
+        from_state="caucus"
+        to_state="voting"
+        permission="review"
+        />
+
+    <transition
+        name="close_polls"
+        callback=".security.callback"
+        from_state="voting"
+        to_state="closed"
+        permission="review"
+        />
+
+    <transition
+        name="caucus_hide"
+        callback=".security.callback"
+        from_state="caucus"
+        to_state="private"
+        permission="review"
+        />
+
+    <transition
+        name="voting_hide"
+        callback=".security.callback"
+        from_state="voting"
+        to_state="private"
+        permission="review"
+        />
+
+    <transition
+        name="closed_hide"
+        callback=".security.callback"
+        from_state="closed"
+        to_state="private"
+        permission="review"
+        />
+
+  </workflow>
+
+</configure>

@@ -34,6 +34,7 @@ def main(global_config, **settings):
         authentication_policy=authn_policy,
         authorization_policy=authz_policy,
     )
+    config.load_zcml('configure.zcml')
     # subscriber for base template setup
     config.add_subscriber(
         'votingmachine.subscribers.add_base_template',

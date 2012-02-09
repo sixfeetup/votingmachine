@@ -5,3 +5,7 @@ def groupfinder(userid, request):
     if user is None:
         return []
     return user['groups']
+
+
+def callback(content, info):
+    return
