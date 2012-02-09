@@ -474,7 +474,7 @@ def add_profile(context, request):
     renderer='votingmachine:templates/vote.pt', permission='vote')
 def vote_view(context, request):
     logged_in = authenticated_userid(request)
-    schema = BallotSchema()
+    schema = BallotSchema().clone()
     _add_category_schema(context, request, schema)
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
