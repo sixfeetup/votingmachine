@@ -66,8 +66,11 @@ class MembersSchema(SequenceSchema):
 
 class TeamSchema(MappingSchema):
     title = SchemaNode(String())
-    # TODO: Turn this into rich text?
-    description = SchemaNode(String(), missing='')
+    description = SchemaNode(
+        String(),
+        missing='',
+        widget=widget.RichTextWidget(),
+    )
     members = MembersSchema(
         widget=widget.CheckboxChoiceWidget(),
         missing=[],
