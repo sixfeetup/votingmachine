@@ -38,7 +38,7 @@
                         <dd class="discreet"
                             tal:define="descrip team.description"
                             tal:condition="descrip">
-                          <tal:descrip replace="structure team.description" />
+                          <tal:descrip replace="structure descrip" />
                         </dd>
                     </tal:team>
                 </tal:teams>
