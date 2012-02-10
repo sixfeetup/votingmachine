@@ -249,10 +249,14 @@ body:before {
     clear: both;
 }
 #vote-form .deformSeq > ul > li { 
-    width: 425px;
-    margin-right: 25px;
-    float: left;
-    clear: none;
+    clear: both;
+}
+#vote-form #item-deformField15 {
+    width: 450px;
+}
+#vote-form .deformMappingFieldset .description {
+    float: right;
+    width: 350px;
 }
 .deformMappingFieldset > ul {
     background-color: #eeeeee;
@@ -277,6 +281,25 @@ body:before {
 .deform ul.deformSet li {
     display: inline;
     margin: 0;
+}
+#item-deformField3 .deformSet {
+    margin: 0;
+}
+#item-deformField3 .deformSet li {
+    white-space: nowrap;
+}
+
+/* teams */
+#teams-list dt {
+    font-size: 20px;
+    color: #000000;
+    margin-top: 20px;
+}
+#teams-list dd {
+    width: 600px;
+}
+#teams-list .members p {
+    font-size: 13px;
 }
 
 /* results */

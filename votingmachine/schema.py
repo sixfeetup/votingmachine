@@ -97,6 +97,15 @@ class TeamVoteSchema(MappingSchema):
             css_class="teamTitle",
         ),
     )
+    # read-only friendly presentation of the team description
+    team_description = SchemaNode(
+        String(),
+        missing='',
+        widget=widget.RichTextWidget(
+            template="richtext_output",
+            css_class="teamDescription",
+        ),
+    )
     # read-only friendly presentation of the team members
     team_members = SchemaNode(
         String(),
@@ -107,15 +116,6 @@ class TeamVoteSchema(MappingSchema):
             css_class="teamDescription",
         ),
     )
-    # read-only friendly presentation of the team description
-    #team_description = SchemaNode(
-    #    String(),
-    #    missing='',
-    #    widget=widget.TextInputWidget(
-    #        template="readonly_textinput",
-    #        css_class="teamDescription",
-    #    ),
-    #)
 
 
 class VoteSchema(SequenceSchema):

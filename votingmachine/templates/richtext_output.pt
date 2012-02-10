@@ -1,0 +1,2 @@
+<div class="description"
+     tal:content="structure cstruct"> rich text description</div>
