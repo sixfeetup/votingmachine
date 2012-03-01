@@ -1,11 +1,11 @@
-FedEx Day Voting Machine
-========================
+Voting Machine
+==============
 
-A Pyramid application that supports FedEx Day voting.
+A Pyramid application that supports voting for teams of people
 
 Getting Started
 ---------------
 
-The easiest way to get started would be to use the fedexvoting-buildout_
+The easiest way to get started would be to use the votingmachine-buildout_
 
-.. _fedexvoting-buildout: http://github.com/sixfeetup/fedexvoting-buildout
+.. _votingmachine-buildout: http://github.com/sixfeetup/votingmachine-buildout

@@ -4,10 +4,10 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal">
     <head>
         <meta charset="utf-8" />
-        <title>FedEx Day Voting Machine</title>
+        <title>Voting Machine</title>
 
         <link rel="shortcut icon" href="${request.static_url('votingmachine:static/favicon.ico')}" />
-        <link rel="stylesheet" href="${request.static_url('votingmachine:static/fedex.css')}" media="screen" />
+        <link rel="stylesheet" href="${request.static_url('votingmachine:static/votingmachine.css')}" media="screen" />
         <tal:block metal:define-slot="css_resources"></tal:block>
 
         <script type="text/javascript" src="${request.static_url('votingmachine:static/jquery.js')}"></script>
@@ -21,7 +21,7 @@
         <div id="wrap">
             <header>
                 <a href="${request.application_url}">
-                    <img src="${request.static_url('votingmachine:static/logo.png')}" alt="FedEx Day Voting Machine" />
+                    <img src="${request.static_url('votingmachine:static/logo.png')}" alt="Voting Machine" />
                 </a>
             </header>
             <tal:logout condition="logged_in">
@@ -37,8 +37,7 @@
             </div>
         </div>
         <footer>
-            <p>Created by Six Feet Up, Inc. Get the source on <a href="http://github.com/sixfeetup/votingmachine">github</a>.<br />
-                The FedEx name is a registered trademark</p>
+            <p>Created by Six Feet Up, Inc. Get the source on <a href="http://github.com/sixfeetup/votingmachine">github</a></p>
         </footer>
     </body>
 </html>

@@ -57,7 +57,7 @@ class VotingBooth(Folder):
     winner = None
 
     def __init__(self, title, start, end, categories):
-        """The container for a FedEx day vote"""
+        """The container for a vote"""
         # initialize the folder settings
         super(VotingBooth, self).__init__()
         self.title = title
@@ -101,7 +101,7 @@ class TeamFolder(Folder):
 class Team(Persistent):
 
     def __init__(self, title, description=None, members=None, leader=None):
-        """A FedEx day team"""
+        """A team"""
         self.title = title
         self.description = description
         if members is None:
