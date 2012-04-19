@@ -7,6 +7,7 @@ from colander import DateTime
 from colander import Float
 from colander import Int
 from colander import Function
+from colander import deferred
 from deform import widget
 
 
@@ -64,6 +65,28 @@ class MembersSchema(SequenceSchema):
     member = SchemaNode(String())
 
 
+@deferred
+def member_widget(node, kw):
+    request = kw['request']
+    profiles = request.root['profiles']
+    profile_values = list(profiles.values())
+    profile_values.sort(key=lambda x: x.last_name)
+    vocab = []
+    names = set()
+    for profile in profile_values:
+        fullname = "%s %s" % (profile.first_name, profile.last_name)
+        if fullname in names:
+            names.add(fullname)
+            fullname = '%s (%s)' % (fullname, profile.username)
+        else:
+            names.add(fullname)
+        vocab.append((profile.username, fullname))
+    if node.name in ['leader']:
+        vocab.insert(0, ('', 'Select a value'))
+        return widget.SelectWidget(values=vocab)
+    return widget.CheckboxChoiceWidget(values=vocab)
+
+
 class TeamSchema(MappingSchema):
     title = SchemaNode(String())
     description = SchemaNode(
@@ -72,13 +95,13 @@ class TeamSchema(MappingSchema):
         widget=widget.RichTextWidget(),
     )
     members = MembersSchema(
-        widget=widget.CheckboxChoiceWidget(),
+        widget=member_widget,
         missing=[],
     )
     leader = SchemaNode(
         String(),
         missing='',
-        widget=widget.SelectWidget(),
+        widget=member_widget,
     )
 
 

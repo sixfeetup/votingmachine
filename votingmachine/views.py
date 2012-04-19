@@ -108,27 +108,6 @@ def _add_category_schema(context, request, schema):
     team_vote.add(cat_vote_schema)
 
 
-def _team_vocab(context, request, select=False):
-    root = request.root
-    # TODO: use a catalog and index these?
-    profiles = root['profiles']
-    profile_values = list(profiles.values())
-    profile_values.sort(key=lambda x: x.last_name)
-    vocab = []
-    names = set()
-    for profile in profile_values:
-        fullname = "%s %s" % (profile.first_name, profile.last_name)
-        if fullname in names:
-            names.add(fullname)
-            fullname = '%s (%s)' % (fullname, profile.username)
-        else:
-            names.add(fullname)
-        vocab.append((profile.username, fullname))
-    if select:
-        vocab.insert(0, ('', 'Select a value'))
-    return vocab
-
-
 @view_config(
     context=PollingPlace, name='login',
     renderer='templates/login.pt', permission='view')
@@ -335,10 +314,7 @@ def team_view(context, request):
              permission='add:team')
 def add_team(context, request):
     logged_in = authenticated_userid(request)
-    schema = TeamSchema()
-    # XXX: this could end badly...
-    schema.children[2].widget.values = _team_vocab(context, request)
-    schema.children[3].widget.values = _team_vocab(context, request, True)
+    schema = TeamSchema().bind(request=request)
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
@@ -379,10 +355,7 @@ def add_team(context, request):
     renderer='votingmachine:templates/team_edit.pt', permission='edit')
 def edit_team(context, request):
     logged_in = authenticated_userid(request)
-    schema = TeamSchema()
-    # XXX: this could end badly...
-    schema.children[2].widget.values = _team_vocab(context, request)
-    schema.children[3].widget.values = _team_vocab(context, request, True)
+    schema = TeamSchema().bind(request=request)
     form = Form(schema, buttons=('submit',))
     css_resources, js_resources = _form_resources(form)
     if 'submit' in request.POST:
