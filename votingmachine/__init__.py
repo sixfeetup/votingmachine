@@ -42,6 +42,8 @@ def main(global_config, **settings):
     config.add_static_view(
         'static', 'votingmachine:static', cache_max_age=3600)
     config.add_static_view(
+        'legacy', 'votingmachine:legacy', cache_max_age=3600)
+    config.add_static_view(
         'deform_static', 'deform:static', cache_max_age=3600)
     # find views
     config.scan('votingmachine')
