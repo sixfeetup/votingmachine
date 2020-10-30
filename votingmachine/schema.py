@@ -6,6 +6,7 @@ from colander import String
 from colander import DateTime
 from colander import Float
 from colander import Int
+from colander import Boolean
 from colander import Function
 from colander import deferred
 from deform import widget
@@ -138,6 +139,10 @@ class TeamVoteSchema(MappingSchema):
             # XXX: changeme...
             css_class="teamDescription",
         ),
+    )
+    team_hasuser = SchemaNode(
+        Boolean(),
+        widget=widget.HiddenWidget(),
     )
 
 

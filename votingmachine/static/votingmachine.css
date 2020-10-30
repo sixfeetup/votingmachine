@@ -288,6 +288,9 @@ body:before {
 #item-deformField3 .deformSet li {
     white-space: nowrap;
 }
+fieldset.disable {
+    opacity: 0.6;
+}
 
 /* teams */
 #teams-list dt {

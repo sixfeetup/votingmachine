@@ -488,9 +488,9 @@ def vote_view(context, request):
             team_title=team['item'].title,
             team_members=', '.join(team['item'].member_names()),
             team_description=team['item'].description,
+            team_hasuser=logged_in in team['item'].members
         )
         for team in teams
-        if logged_in not in team['item'].members
     ]
     # put the current vote back in place
     current_vote = context.results.get(logged_in, {})
