@@ -349,3 +349,37 @@ fieldset.disable {
     text-align: right;
 }
 
+@media (max-width: 980px) {
+    #wrap {
+        width: calc(100% - 20px);
+    }
+    #teams-list dd,
+    #results {
+        width: 100%;
+        min-width: 100px;
+    }
+    #vote-form .deformMappingFieldset .description {
+        float: none;
+        width: 100%;
+    }
+    #vote-form .deform label.desc {
+        float: none;
+    }
+    .deform ul.deformSet {
+        margin-left: 0;
+        clear: left;
+    }
+    #vote-form #item-deformField15 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    nav {
+        float: none;
+    }
+    table.mceLayout {
+        width: 100% !important;
+    }
+}
+
