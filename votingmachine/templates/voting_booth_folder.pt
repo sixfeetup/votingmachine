@@ -15,6 +15,48 @@
             <li tal:repeat="booth booths">
                 <a href="${booth.url}">${booth['item'].title}</a> - ${booth['item'].start.strftime("%B %Y")}
             </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/13.html">21st ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/12.html">20th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/11.html">19th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/10.html">18th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/9.html">17th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/8.html">16th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/7.html">15th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/6.html">14th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/5.html">13th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/4.html">11th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/3.html">10th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/2.html">9th ShipIt Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/1.html">7th Expedite Day</a>
+            </li>
+            <li>
+                <a href="http://vote.sixfeetup.com/legacy/0.html">6th FedEx Day</a>
+            </li>
         </ul>
     </tal:block>
 </html>
