@@ -251,7 +251,7 @@ body:before {
 #vote-form .deformSeq > ul > li { 
     clear: both;
 }
-#vote-form #item-deformField15 {
+#vote-form #item-deformField14 {
     width: 450px;
 }
 #vote-form .deformMappingFieldset .description {
@@ -302,6 +302,11 @@ fieldset.disable {
     padding: 5px 10px;
     color: #eeeeee;
     border: 1px solid #333333;
+    font-size: 20px;
+}
+.novote {
+    color: #8d2323;
+    margin-left: 5px;
     font-size: 20px;
 }
 
@@ -369,7 +374,7 @@ fieldset.disable {
         margin-left: 0;
         clear: left;
     }
-    #vote-form #item-deformField15 {
+    #vote-form #item-deformField14 {
         width: 100%;
     }
 }
