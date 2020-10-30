@@ -166,6 +166,7 @@ class ProfileSchema(MappingSchema):
 class ProfileAddSchema(ProfileSchema):
     username = SchemaNode(
         String(),
+        title='Verify email',
         validator=Function(unique_username, 'Username already exists'),
     )
     password = SchemaNode(String(), widget=widget.CheckedPasswordWidget())
