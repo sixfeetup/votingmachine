@@ -258,8 +258,14 @@ body:before {
     float: right;
     width: 350px;
 }
-.deformMappingFieldset > ul {
+.deformMappingFieldset {
     background-color: #eeeeee;
+}
+.deformMappingFieldset ul::after {
+    content: '';
+    height: 0;
+    clear: both;
+    display: block;
 }
 .deformMappingFieldset p {
     padding: 10px 0 0 5px;
@@ -290,6 +296,13 @@ body:before {
 }
 fieldset.disable {
     opacity: 0.6;
+}
+#deformsubmit {
+    background: #f07817;
+    padding: 5px 10px;
+    color: #eeeeee;
+    border: 1px solid #333333;
+    font-size: 20px;
 }
 
 /* teams */
