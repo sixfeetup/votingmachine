@@ -1,5 +1,4 @@
 from datetime import datetime
-from types import StringTypes
 from pyramid.httpexceptions import HTTPFound
 from pyramid.security import authenticated_userid
 from pyramid.security import remember
@@ -36,6 +35,7 @@ CATEGORY_RANK = (
     ('4', '4'),
     ('5', '5'),
 )
+StringTypes = (bytes, str)
 
 
 def _form_resources(form):
@@ -233,7 +233,7 @@ def add_voting_booth(context, request):
         controls = request.POST.items()
         try:
             form.validate(controls)
-        except (ValidationFailure,), e:
+        except ValidationFailure as e:
             return {
                 'form': e.render(),
                 'css_resources': css_resources,
@@ -282,7 +282,7 @@ def edit_voting_booth(context, request):
         controls = request.POST.items()
         try:
             form.validate(controls)
-        except (ValidationFailure,), e:
+        except ValidationFailure as e:
             return {
                 'form': e.render(),
                 'css_resources': css_resources,
@@ -332,7 +332,7 @@ def add_team(context, request):
         controls = request.POST.items()
         try:
             form.validate(controls)
-        except (ValidationFailure,), e:
+        except ValidationFailure as e:
             return {
                 'form': e.render(),
                 'css_resources': css_resources,
@@ -373,7 +373,7 @@ def edit_team(context, request):
         controls = request.POST.items()
         try:
             form.validate(controls)
-        except (ValidationFailure,), e:
+        except ValidationFailure as e:
             return {
                 'form': e.render(),
                 'css_resources': css_resources,
@@ -418,7 +418,7 @@ def add_profile(context, request):
         controls = request.POST.items()
         try:
             form.validate(controls)
-        except (ValidationFailure,), e:
+        except ValidationFailure as e:
             return {
                 'form': e.render(),
                 'css_resources': css_resources,
@@ -466,7 +466,7 @@ def vote_view(context, request):
         controls = request.POST.items()
         try:
             form.validate(controls)
-        except (ValidationFailure,), e:
+        except ValidationFailure as e:
             # Put the team names back in place
             cstruct = e.cstruct
             for vote in cstruct['votes']:

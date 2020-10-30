@@ -1,7 +1,7 @@
 from persistent import Persistent
 from persistent.mapping import PersistentMapping
 from zope.interface import Interface
-from zope.interface import implements
+from zope.interface import implementer
 from pyramid.security import Allow
 from pyramid.security import Everyone
 from pyramid.security import Authenticated
@@ -32,8 +32,8 @@ class IVotingBoothFolder(Interface):
     """Marker interface for voting booth folder"""
 
 
+@implementer(IVotingBoothFolder)
 class VotingBoothFolder(Folder):
-    implements(IVotingBoothFolder)
 
     current_id = -1
 
@@ -56,8 +56,8 @@ class IVotingBooth(Interface):
     """Marker interface for voting booth"""
 
 
+@implementer(IVotingBooth)
 class VotingBooth(Folder):
-    implements(IVotingBooth)
 
     winner = None
 
@@ -99,8 +99,8 @@ class ITeamFolder(Interface):
     """Marker interface for team folder"""
 
 
+@implementer(ITeamFolder)
 class TeamFolder(Folder):
-    implements(ITeamFolder)
 
     current_id = -1
 
@@ -158,16 +158,17 @@ class IUserFolder(Interface):
     """Marker interface for the user folder"""
 
 
+@implementer(IUserFolder)
 class UserFolder(Users):
-    implements(IUserFolder)
+    pass
 
 
 class IProfile(Interface):
     """Marker interface for a profile"""
 
 
+@implementer(IProfile)
 class Profile(Persistent):
-    implements(IProfile)
 
     def __init__(self, first_name, last_name, email, username):
         """User Profile"""
@@ -181,8 +182,8 @@ class IProfileFolder(Interface):
     """Marker interface for profile folder"""
 
 
+@implementer(IProfileFolder)
 class ProfileFolder(Folder):
-    implements(IProfileFolder)
 
     def add_profile(self, profile):
         # XXX: check for existing username
