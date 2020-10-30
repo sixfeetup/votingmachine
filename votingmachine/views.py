@@ -569,17 +569,17 @@ def user_folder_view(context, request):
         controls = request.POST.items()
         params = parse(controls)
         for user in users:
-            password = params.get('password-{}'.format(user))
-            confirm = params.get('confirm-{}'.format(user))
+            password = params.get('password-{0}'.format(user))
+            confirm = params.get('confirm-{0}'.format(user))
             if password and confirm:
                 if password == confirm:
                     context.change_password(user, password)
                     messages.append(
-                        'Password updated for {}'.format(user)
+                        'Password updated for {0}'.format(user)
                     )
                 else:
                     messages.append(
-                        'Passwords did not match for {}'.format(user)
+                        'Passwords did not match for {0}'.format(user)
                     )
         # return HTTPFound(location=request.resource_url(context))
     return {
