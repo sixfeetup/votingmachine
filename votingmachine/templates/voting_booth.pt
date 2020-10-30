@@ -5,7 +5,6 @@
     <tal:block metal:fill-slot="content">
         
         <nav>
-            <a href="${request.resource_url(context.__parent__)}">^ up a level</a>
             <ul>
                 <li tal:condition="teams and context.can_vote()"><a href="${request.resource_url(context)}vote">Vote</a></li>
                 <li tal:condition="context.results"><a href="${request.resource_url(context)}results">View Results</a></li>

@@ -22,6 +22,11 @@ class PollingPlace(PersistentMapping):
         (Allow, 'group:administrators', 'edit'),
     ]
 
+    def can_add_booth(self):
+        request = get_current_request()
+        permission = has_permission('add:booth', self, request)
+        return permission.boolval
+
 
 class IVotingBoothFolder(Interface):
     """Marker interface for voting booth folder"""

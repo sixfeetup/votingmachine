@@ -170,13 +170,22 @@ def polling_view(context, request):
         sort_order='descending',
         max_items=1,
     )
+    booths = _folder_contents(
+        context['votes'],
+        request,
+        IVotingBoothFolder,
+        sort='start',
+        sort_order='descending',
+    )
     if current_votes:
         current_vote = current_votes[0]
+        booths = booths [1:]
     else:
         current_vote = None
     return {
         'current_vote': current_vote,
         'logged_in': logged_in,
+        'booths': booths,
     }
 
 
