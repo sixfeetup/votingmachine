@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base">
+    <tal:block metal:fill-slot="content">
+        <nav>
+            <a href="${request.resource_url(context.__parent__)}">^ up a level</a><br />
+        </nav>
+        <h1>Users</h1>
+        <p class="discreet">A list of users</p>
+        <form method="post">
+        <table>
+            <tr tal:repeat="user users">
+                <td>${user}</td>
+                <td style="padding-left: 1em">
+                    <input type="password" name="password-${user}" placeholder="new password"/>
+                </td>
+                <td style="padding-left: 1em">
+                    <input type="password" name="confirm-${user}" placeholder="confirm"/>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" name="passwords.submitted" value="Update Passwords"/>
+        </form>
+        <ul tal:condition="messages">
+            <li tal:repeat="message messages">${message}</li>
+        </ul>
+    </tal:block>
+</html>

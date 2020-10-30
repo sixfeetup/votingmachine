@@ -20,11 +20,19 @@ class PollingPlace(PersistentMapping):
         (Allow, Authenticated, 'vote'),
         (Allow, 'group:administrators', 'add:booth'),
         (Allow, 'group:administrators', 'edit'),
+        (Allow, 'group:administrators', 'edit:user'),
     ]
 
     def can_add_booth(self):
         request = get_current_request()
         permission = has_permission('add:booth', self, request)
+        return permission.boolval
+
+    def can_edit_user(self):
+        """This seems totally wrong...
+        """
+        request = get_current_request()
+        permission = has_permission('edit:user', self, request)
         return permission.boolval
 
 

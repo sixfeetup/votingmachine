@@ -13,6 +13,9 @@
             <ul>
                 <li tal:condition="context.can_add_booth()"><a href="${request.resource_url(context['votes'])}add">Add new event</a></li>
             </ul>
+            <ul>
+                <li tal:condition="context.can_edit_user()"><a href="${request.application_url}/users/">Edit users</a></li>
+            </ul>
         </nav>
 
         <h2><a href="${request.application_url}/votes/">List of Previous Events</a></h2>

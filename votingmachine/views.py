@@ -21,6 +21,7 @@ from votingmachine.models import VotingBooth
 from votingmachine.models import Team
 from votingmachine.models import TeamFolder
 from votingmachine.models import Profile
+from votingmachine.models import UserFolder
 
 from votingmachine.schema import VotingBoothSchema
 from votingmachine.schema import TeamSchema
@@ -553,4 +554,36 @@ def results_view(context, request):
     return {
         'scores': sorted(scores.items(), key=lambda x: x[1], reverse=True),
         'logged_in': logged_in,
+    }
+
+
+@view_config(
+    context=UserFolder, permission='edit:user',
+    renderer='votingmachine:templates/user_folder.pt',
+)
+def user_folder_view(context, request):
+    logged_in = authenticated_userid(request)
+    users = [user for user in context.logins if user != 'admin']
+    messages = []
+    if 'passwords.submitted' in request.POST:
+        controls = request.POST.items()
+        params = parse(controls)
+        for user in users:
+            password = params.get('password-{}'.format(user))
+            confirm = params.get('confirm-{}'.format(user))
+            if password and confirm:
+                if password == confirm:
+                    context.change_password(user, password)
+                    messages.append(
+                        'Password updated for {}'.format(user)
+                    )
+                else:
+                    messages.append(
+                        'Passwords did not match for {}'.format(user)
+                    )
+        # return HTTPFound(location=request.resource_url(context))
+    return {
+        'users': users,
+        'logged_in': logged_in,
+        'messages': messages,
     }
