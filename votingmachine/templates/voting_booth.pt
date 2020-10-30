@@ -15,7 +15,7 @@
         
         <h1>
             ${context.title}
-            <tal:admin condition="context.can_edit_booth()"><a href="${request.resource_url(context)}add">(Edit event)</a></tal:admin>
+            <tal:admin condition="context.can_edit_booth()"><a href="${request.resource_url(context)}edit">[Edit event]</a></tal:admin>
         </h1>
 
         <p>
