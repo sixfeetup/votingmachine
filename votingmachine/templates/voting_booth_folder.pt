@@ -13,7 +13,7 @@
         <p class="discreet">A list of previous events, newest to oldest</p>
         <ul>
             <li tal:repeat="booth booths">
-                <a href="${booth.url}">${booth['item'].title}</a>
+                <a href="${booth.url}">${booth['item'].title}</a> - ${booth['item'].start.strftime("%B %Y")}
             </li>
         </ul>
     </tal:block>
