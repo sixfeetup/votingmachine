@@ -155,6 +155,10 @@ nav li a:hover {
     text-decoration: none;
 }
 
+.usermenu {
+    float: right;
+}
+
 /* main wrapper */
 #wrap {
     width: 960px;

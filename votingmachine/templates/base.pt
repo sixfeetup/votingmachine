@@ -23,13 +23,16 @@
                 <a href="${request.application_url}">
                     <img src="${request.static_url('votingmachine:static/logo.png')}" alt="Voting Machine" />
                 </a>
+
+                <div class='usermenu'>
+                    <tal:logout condition="logged_in">
+                        <a href="${request.application_url}/logout">Logout ${username}</a>
+                    </tal:logout>
+                    <tal:login condition="not logged_in">
+                        <a href="${request.application_url}/login">Login</a>
+                    </tal:login>
+                </div>
             </header>
-            <tal:logout condition="logged_in">
-                <a href="${request.application_url}/logout">Logout</a>
-            </tal:logout>
-            <tal:login condition="not logged_in">
-                <a href="${request.application_url}/login">Login</a>
-            </tal:login>
             <div id="bottom">
                 <tal:block metal:define-slot="content">
                     Templates fill in the content here
