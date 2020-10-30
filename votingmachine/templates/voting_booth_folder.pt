@@ -16,46 +16,46 @@
                 <a href="${booth.url}">${booth['item'].title}</a> - ${booth['item'].start.strftime("%B %Y")}
             </li>
             <li>
-                <a href="/legacy/13.html">21st ShipIt Day</a>
+                <a href="/legacy/13.html">21st ShipIt Day</a> - January 2020
             </li>
             <li>
-                <a href="/legacy/12.html">20th ShipIt Day</a>
+                <a href="/legacy/12.html">20th ShipIt Day</a> - August 2019
             </li>
             <li>
-                <a href="/legacy/11.html">19th ShipIt Day</a>
+                <a href="/legacy/11.html">19th ShipIt Day</a> - March 2019
             </li>
             <li>
-                <a href="/legacy/10.html">18th ShipIt Day</a>
+                <a href="/legacy/10.html">18th ShipIt Day</a> - August 2018
             </li>
             <li>
-                <a href="/legacy/9.html">17th ShipIt Day</a>
+                <a href="/legacy/9.html">17th ShipIt Day</a> - June 2018
             </li>
             <li>
-                <a href="/legacy/8.html">16th ShipIt Day</a>
+                <a href="/legacy/8.html">16th ShipIt Day</a> - August 2017
             </li>
             <li>
-                <a href="/legacy/7.html">15th ShipIt Day</a>
+                <a href="/legacy/7.html">15th ShipIt Day</a> - April 2017
             </li>
             <li>
-                <a href="/legacy/6.html">14th ShipIt Day</a>
+                <a href="/legacy/6.html">14th ShipIt Day</a> - March 2016
             </li>
             <li>
-                <a href="/legacy/5.html">13th ShipIt Day</a>
+                <a href="/legacy/5.html">13th ShipIt Day</a> - October 2014
             </li>
             <li>
-                <a href="/legacy/4.html">11th ShipIt Day</a>
+                <a href="/legacy/4.html">11th ShipIt Day</a> - September 2013
             </li>
             <li>
-                <a href="/legacy/3.html">10th ShipIt Day</a>
+                <a href="/legacy/3.html">10th ShipIt Day</a> - May 2013
             </li>
             <li>
-                <a href="/legacy/2.html">9th ShipIt Day</a>
+                <a href="/legacy/2.html">9th ShipIt Day</a> - January 2012
             </li>
             <li>
-                <a href="/legacy/1.html">7th Expedite Day</a>
+                <a href="/legacy/1.html">7th Expedite Day</a> - June 2012
             </li>
             <li>
-                <a href="/legacy/0.html">6th FedEx Day</a>
+                <a href="/legacy/0.html">6th FedEx Day</a> - February  2012
             </li>
         </ul>
     </tal:block>
