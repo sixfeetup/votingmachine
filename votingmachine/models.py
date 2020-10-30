@@ -66,6 +66,13 @@ class VotingBooth(Folder):
         self.categories = categories
         self.results = {}
 
+    def can_edit_booth(self):
+        """This seems totally wrong...
+        """
+        request = get_current_request()
+        permission = has_permission('add:booth', self, request)
+        return permission.boolval
+
     def can_add_team(self):
         """This seems totally wrong...
         """
