@@ -82,10 +82,12 @@ class VotingBooth(Folder):
 
     def can_vote(self):
         """This seems totally wrong...
+           Don't let admin vote
         """
         request = get_current_request()
-        permission = has_permission('vote', self, request)
-        return permission.boolval
+        permission = has_permission('vote', self, request).boolval and \
+            not self.can_edit_booth()
+        return permission
 
 
 class ITeamFolder(Interface):
