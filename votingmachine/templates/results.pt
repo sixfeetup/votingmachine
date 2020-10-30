@@ -18,7 +18,7 @@
                 <tr tal:repeat="score scores"
                     tal:attributes="class string:row-${repeat.score.number}">
                     <td>${score[0].title}</td>
-                    <td class="score">${score[1]}</td>
+                    <td class="score">${round(score[1], 4)}</td>
                 </tr>
             </table>
         </tal:results>
