@@ -130,15 +130,23 @@ def login(request):
     if 'form.submitted' in request.params:
         login = request.params['login']
         password = request.params['password']
-        user_folder = request.context['users']
-        user = user_folder.get(login)
-        if user is not None and user['password'] == get_sha_password(password):
-            headers = remember(request, login)
-            return HTTPFound(location=came_from, headers=headers)
-        message = (
-            'The username or password that you entered was not correct, try '
-            'again'
-        )
+        profile_folder = request.context['profiles']
+        profile = profile_folder.profile_by_email(login)
+        if profile is not None:
+            user_folder = request.context['users']
+            user = user_folder.get(profile.username)
+            if (
+                user is not None and
+                user['password'] == get_sha_password(password)
+            ):
+                headers = remember(request, login)
+                return HTTPFound(location=came_from, headers=headers)
+            message = (
+                'The username or password that you entered was not '
+                'correct, try again'
+            )
+        else:
+            message = 'No such user'
 
     return dict(
         message=message,

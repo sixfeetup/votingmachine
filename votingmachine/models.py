@@ -198,6 +198,11 @@ class ProfileFolder(Folder):
         self[profile.username] = profile
         return profile.username
 
+    def profile_by_email(self, email):
+        for username, profile in self.items():
+            if profile.email == email:
+                return profile
+
 
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
